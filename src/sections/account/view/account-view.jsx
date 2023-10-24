@@ -2,13 +2,15 @@ import { useState } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 
-import { Box, Grid, IconButton, InputAdornment, TextField, alpha, useTheme } from '@mui/material';
-import Iconify from 'src/components/iconify/iconify';
+import { Box, IconButton, alpha, TextField, InputAdornment, useTheme } from '@mui/material';
+
 import { LoadingButton } from '@mui/lab';
+
+import Iconify from 'src/components/iconify/iconify';
+
 import { bgGradient } from 'src/theme/css';
 
 // ----------------------------------------------------------------------
@@ -16,9 +18,9 @@ import { bgGradient } from 'src/theme/css';
 export default function AccountPage() {
   const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
-  const handleClick = () => {
-    router.push('/dashboard');
-  };
+  // const handleClick = () => {
+  //   router.push('/dashboard');
+  // };
   const renderForm = (
     <>
       <Stack

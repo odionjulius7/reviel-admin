@@ -12,13 +12,15 @@ import TablePagination from '@mui/material/TablePagination';
 // import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
+import { loanPayment } from 'src/_mock/loanPayment';
+
 import TableNoData from '../table-no-data';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
-import { emptyRows, applyFilter, getComparator } from '../utils';
 import LoansTableRow from '../loan-table-row';
 import LoanTableHead from '../loan-table-head';
-import { loanPayment } from 'src/_mock/loanPayment';
+
+import { emptyRows, applyFilter, getComparator } from '../utils';
 
 // ----------------------------------------------------------------------
 

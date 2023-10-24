@@ -17,9 +17,11 @@ import Scrollbar from 'src/components/scrollbar';
 import TableNoData from '../table-no-data';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
-import { emptyRows, applyFilter, getComparator } from '../utils';
+
 import LoansTableRow from '../loan-table-row';
 import LoanTableHead from '../loan-table-head';
+
+import { emptyRows, applyFilter, getComparator } from '../utils';
 
 // ----------------------------------------------------------------------
 
@@ -28,7 +30,7 @@ export default function LoanListPage() {
 
   const [order, setOrder] = useState('asc');
 
-  const [selected, setSelected] = useState([]);
+  // const [selected, setSelected] = useState([]);
 
   const [orderBy, setOrderBy] = useState('name');
 
@@ -101,7 +103,7 @@ export default function LoanListPage() {
 
       <Card>
         <UserTableToolbar
-          numSelected={selected.length}
+          // numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
         />
@@ -113,7 +115,7 @@ export default function LoanListPage() {
                 order={order}
                 orderBy={orderBy}
                 rowCount={loans.length}
-                numSelected={selected.length}
+                // numSelected={selected.length}
                 onRequestSort={handleSort}
                 // onSelectAllClick={handleSelectAllClick}
                 headLabel={[
@@ -144,7 +146,7 @@ export default function LoanListPage() {
                       balance={row.balance}
                       initiationDate={row.initiationDate}
                       dueDate={row.dueDate}
-                      selected={selected.indexOf(row.name) !== -1}
+                      // selected={selected.indexOf(row.name) !== -1}
                       // handleClick={(event) => handleClick(event, row.creditId)}
                     />
                   ))}
