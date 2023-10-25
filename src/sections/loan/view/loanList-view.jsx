@@ -8,6 +8,7 @@ import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import { loans } from 'src/_mock/loanListT';
 
@@ -22,6 +23,7 @@ import LoansTableRow from '../loan-table-row';
 import LoanTableHead from '../loan-table-head';
 
 import { emptyRows, applyFilter, getComparator } from '../utils';
+import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
 
 // ----------------------------------------------------------------------
 
@@ -100,6 +102,92 @@ export default function LoanListPage() {
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Loans</Typography>
       </Stack>
+
+      <Grid
+        container
+        spacing={2}
+        sx={{
+          margin: '1rem 0 4rem 0',
+        }}
+      >
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="Total no. of loans"
+            total={133}
+            color="info"
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
+            // icon={<span style={{ fontSize: '30px' }}>&#8358; </span>}
+          />
+        </Grid>
+
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="No. Of Bad Loans"
+            total={23}
+            color="error"
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+          />
+        </Grid>
+
+        {/* small */}
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="Amount Of Loans Initiated By Lender"
+            total={1000}
+            color="warning"
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+          />
+        </Grid>
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="No. Of Pending Loans"
+            total={900}
+            color="success"
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+          />
+        </Grid>
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="No. Completed Loans"
+            total={900}
+            color="success"
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+          />
+        </Grid>
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="Amount Of Loans Initiated By Borrower"
+            total={900}
+            color="success"
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+          />
+        </Grid>
+
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="No. Of Actove Loans"
+            total={93}
+            color="info"
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+          />
+        </Grid>
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="No. Of Loans Initiated By Lender"
+            total={93}
+            color="info"
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+          />
+        </Grid>
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="No. Of Loans Initiated By Borrower"
+            total={93}
+            color="info"
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+          />
+        </Grid>
+      </Grid>
 
       <Card>
         <UserTableToolbar

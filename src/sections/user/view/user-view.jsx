@@ -21,6 +21,8 @@ import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
+import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
+import Grid from '@mui/material/Unstable_Grid2';
 
 // ----------------------------------------------------------------------
 
@@ -103,6 +105,39 @@ export default function UserPage() {
           New User
         </Button>
       </Stack>
+
+      <Grid
+        container
+        spacing={3}
+        sx={{
+          margin: '1rem 0 4rem 0',
+        }}
+      >
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="Total no. of users"
+            total={1000}
+            color="warning"
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+          />
+        </Grid>
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="Verified users"
+            total={600}
+            color="success"
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+          />
+        </Grid>
+        <Grid xs={12} sm={6} md={4}>
+          <AppWidgetSummary
+            title="unverified users"
+            total={90}
+            color="success"
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+          />
+        </Grid>
+      </Grid>
 
       <Card>
         <UserTableToolbar

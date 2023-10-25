@@ -1,5 +1,5 @@
 import { sample } from 'lodash';
-import { faker } from '@faker-js/faker';
+// import { faker } from '@faker-js/faker';
 
 // ----------------------------------------------------------------------
 

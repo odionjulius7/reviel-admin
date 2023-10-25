@@ -1,19 +1,13 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-import Stack from '@mui/material/Stack';
-import Avatar from '@mui/material/Avatar';
-import Popover from '@mui/material/Popover';
-import TableRow from '@mui/material/TableRow';
-import Checkbox from '@mui/material/Checkbox';
-import MenuItem from '@mui/material/MenuItem';
-import TableCell from '@mui/material/TableCell';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+import { TableRow } from '@mui/material';
 
 import Label from 'src/components/label';
-import Iconify from 'src/components/iconify';
+
 import { Link } from 'react-router-dom';
+
+import TableCell from '@mui/material/TableCell';
 
 // ----------------------------------------------------------------------
 
@@ -28,15 +22,15 @@ export default function UserTableRow({
   dateRegistered,
   dateVerified,
 }) {
-  const [open, setOpen] = useState(null);
+  // const [open, setOpen] = useState(null);
 
-  const handleOpenMenu = (event) => {
-    setOpen(event.currentTarget);
-  };
+  // const handleOpenMenu = (event) => {
+  //   setOpen(event.currentTarget);
+  // };
 
-  const handleCloseMenu = () => {
-    setOpen(null);
-  };
+  // const handleCloseMenu = () => {
+  //   setOpen(null);
+  // };
 
   return (
     <>
