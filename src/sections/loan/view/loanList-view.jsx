@@ -15,6 +15,8 @@ import { loans } from 'src/_mock/loanListT';
 // import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
+import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
+
 import TableNoData from '../table-no-data';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
@@ -23,7 +25,6 @@ import LoansTableRow from '../loan-table-row';
 import LoanTableHead from '../loan-table-head';
 
 import { emptyRows, applyFilter, getComparator } from '../utils';
-import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
 
 // ----------------------------------------------------------------------
 

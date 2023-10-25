@@ -15,14 +15,16 @@ import { users } from 'src/_mock/user';
 import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
+import Grid from '@mui/material/Unstable_Grid2';
+
+import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
+
 import TableNoData from '../table-no-data';
 import UserTableRow from '../user-table-row';
 import UserTableHead from '../user-table-head';
 import TableEmptyRows from '../table-empty-rows';
 import UserTableToolbar from '../user-table-toolbar';
 import { emptyRows, applyFilter, getComparator } from '../utils';
-import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
-import Grid from '@mui/material/Unstable_Grid2';
 
 // ----------------------------------------------------------------------
 

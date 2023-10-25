@@ -29,6 +29,7 @@ export default function LoansTableRow({
   initiationDate,
   dueDate,
   creditId,
+  key,
 }) {
   const [open, setOpen] = useState(null);
 
@@ -42,7 +43,7 @@ export default function LoansTableRow({
 
   return (
     <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+      <TableRow key={key} hover tabIndex={-1} role="checkbox" selected={selected}>
         <TableCell align="center">
           <Link to={`/loan/${creditId}`}>{creditId}</Link>
         </TableCell>
@@ -111,4 +112,5 @@ LoansTableRow.propTypes = {
   initiationDate: PropTypes.any,
   dueDate: PropTypes.any,
   creditId: PropTypes.any,
+  key: PropTypes.any,
 };
