@@ -27,11 +27,11 @@ const navConfig = [
     path: '/user',
     icon: icon('ic_user'),
   },
-  {
-    title: 'credit tips',
-    path: '/credit-tip',
-    icon: icon('ic_blog'),
-  },
+  // {
+  //   title: 'credit tips',
+  //   path: '/credit-tip',
+  //   icon: icon('ic_blog'),
+  // },
   {
     title: 'account',
     path: 'account',

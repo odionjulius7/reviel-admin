@@ -5,17 +5,17 @@ import { DataGrid } from '@mui/x-data-grid';
 const columns = [
   {
     field: 'id',
-    headerName: 'ID',
-    width: 70,
-    renderCell: (params) => <a href={`/item/${params.row.id}`}>{params.value}</a>,
+    headerName: 'Credit ID',
+    width: 90,
+    renderCell: (params) => <a href={`/loan/${params.row.id}`}>{params.value}</a>,
   },
-  { field: 'lender', headerName: 'Lender', width: 190 },
-  { field: 'borrower', headerName: 'Borrower', width: 190 },
+  { field: 'lender', headerName: 'Lender', width: 160 },
+  { field: 'borrower', headerName: 'Borrower', width: 160 },
   {
     field: 'phone',
     headerName: 'Phone Number',
     // type: 'number',
-    width: 190,
+    width: 130,
   },
   //   {
   //     field: 'fullName',
@@ -29,40 +29,49 @@ const columns = [
     field: 'status',
     headerName: 'Status',
     // type: 'number',
-    width: 190,
+    width: 130,
   },
   {
-    field: 'amount',
-    headerName: 'Amount',
+    field: 'repaymentDate',
+    headerName: 'Repayment Date',
     // type: 'number',
-    width: 190,
+    width: 160,
+  },
+  {
+    field: 'message',
+    headerName: 'Message',
+    // type: 'number',
+    width: 220,
   },
 ];
 
 const rows = [
   {
-    id: 2,
+    id: 1432,
     lender: 'Mike',
     borrower: 'Joy',
     phone: 20987867565,
     status: 'pending',
-    amount: '7585747446',
+    repaymentDate: '11/28/2023',
+    message: 'lorem ipsum make a ka dhh jhfdh',
   },
   {
-    id: 22,
+    id: 1422,
     lender: 'Mike',
     borrower: 'Joy',
     phone: 20987867565,
     status: 'pending',
-    amount: '7585747446',
+    repaymentDate: '11/28/2023',
+    message: 'lorem ipsum make a ka dhh jhfdh',
   },
   {
-    id: 3,
+    id: 1932,
     lender: 'Mike',
     borrower: 'Joy',
     phone: 20987867565,
     status: 'pending',
-    amount: '7585747446',
+    repaymentDate: '11/28/2023',
+    message: 'lorem ipsum make a ka dhh jhfdh',
   },
 ];
 

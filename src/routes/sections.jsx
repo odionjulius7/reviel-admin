@@ -12,6 +12,8 @@ export const LoanListPage = lazy(() => import('src/pages/loans'));
 export const LoanRepaymentPage = lazy(() => import('src/pages/LoanRepayment'));
 export const CreditTipPage = lazy(() => import('src/pages/credit-tip'));
 export const AccountPage = lazy(() => import('src/pages/account'));
+export const LoanDetailsPage = lazy(() => import('src/pages/loan-details'));
+export const UserDetailPage = lazy(() => import('src/pages/userDetail'));
 export const UserRecordedLoanPage = lazy(() => import('src/pages/user-rec-loans'));
 export const LoginPage = lazy(() => import('src/pages/login'));
 export const ProductsPage = lazy(() => import('src/pages/products'));
@@ -81,6 +83,22 @@ export default function Router() {
           element: (
             <ProtectedRoute>
               <UserRecordedLoanPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: 'loan/:id',
+          element: (
+            <ProtectedRoute>
+              <LoanDetailsPage />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: 'user/:id',
+          element: (
+            <ProtectedRoute>
+              <UserDetailPage />
             </ProtectedRoute>
           ),
         },

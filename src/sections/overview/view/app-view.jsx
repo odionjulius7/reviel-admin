@@ -29,6 +29,35 @@ export default function AppView() {
       </Typography>
 
       <Grid container spacing={3}>
+        {/* small */}
+        <Grid xs={12} sm={6} md={3}>
+          <AppWidgetSummary
+            title="Active Loans"
+            total={900}
+            color="success"
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+          />
+        </Grid>
+
+        <Grid xs={12} sm={6} md={3}>
+          <AppWidgetSummary
+            title="Over Due Payment"
+            total={93}
+            color="info"
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
+          />
+        </Grid>
+
+        <Grid xs={12} sm={6} md={3}>
+          <AppWidgetSummary
+            title="No. Of Loans Initiated"
+            total={1000}
+            color="warning"
+            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+          />
+        </Grid>
+
+        {/* small */}
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="Total amount of loans initated"
@@ -64,34 +93,7 @@ export default function AppView() {
             icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
         </Grid>
-        {/* small */}
-        <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="No. Of Loans Initiated"
-            total={1000}
-            color="warning"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
-          />
-        </Grid>
-        <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="Active Loans"
-            total={900}
-            color="success"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-          />
-        </Grid>
 
-        <Grid xs={12} sm={6} md={3}>
-          <AppWidgetSummary
-            title="Over Due Payment"
-            total={93}
-            color="info"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
-          />
-        </Grid>
-
-        {/* small */}
         {/* Metric End Here */}
 
         <Grid xs={12} md={6} lg={8}>
@@ -151,7 +153,7 @@ export default function AppView() {
               series: [
                 { label: 'Verified', value: 4344 },
                 { label: 'Unverified', value: 5435 },
-                { label: 'Series', value: 1443 },
+                // { label: 'Series', value: 1443 },
                 // { label: 'Africa', value: 4443 },
               ],
             }}
