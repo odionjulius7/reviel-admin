@@ -88,11 +88,11 @@ export default function LoansTableRow({
           </Label>
         </TableCell>
 
-        <TableCell align="right">
+        {/* <TableCell align="right">
           <IconButton onClick={handleOpenMenu}>
             <Iconify icon="eva:more-vertical-fill" />
           </IconButton>
-        </TableCell>
+        </TableCell> */}
       </TableRow>
 
       <Popover
