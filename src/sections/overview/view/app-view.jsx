@@ -121,7 +121,7 @@ export default function AppView() {
         <Grid
           xs={12}
           md={6}
-          lg={8}
+          lg={9}
           sx={{
             marginTop: '2rem',
           }}
@@ -178,7 +178,7 @@ export default function AppView() {
         <Grid
           xs={12}
           md={6}
-          lg={4}
+          lg={3}
           sx={{
             marginTop: '2rem',
           }}

@@ -88,7 +88,7 @@ export default function AppCurrentVisits({ title, subheader, chart, ...other }) 
         series={chartSeries}
         options={chartOptions}
         width="100%"
-        height={280}
+        height={220}
       />
     </Card>
   );
