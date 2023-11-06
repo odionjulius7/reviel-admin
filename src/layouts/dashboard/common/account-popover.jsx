@@ -9,8 +9,10 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
-import { account } from 'src/_mock/account';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { account } from 'src/_mock/account';
+
 import { logout } from 'src/features/auth/authSlice';
 
 // ----------------------------------------------------------------------
@@ -36,7 +38,7 @@ export default function AccountPopover() {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state);
 
-  const { user, isError, isSuccess, isLoading, message } = authState.auth;
+  const { user } = authState.auth;
   const user1 = user?.data?.user;
   const [open, setOpen] = useState(null);
 

@@ -73,7 +73,6 @@ const loanService = {
   allLoanRecords,
   getApprovedloans,
   deleteloan,
-  deleteloan,
   getAUserloans,
   getMonthlyloan,
   loanMetrics,

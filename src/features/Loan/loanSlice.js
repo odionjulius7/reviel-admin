@@ -1,4 +1,5 @@
-import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
+import { createSlice, createAction, createAsyncThunk } from '@reduxjs/toolkit';
+
 import loanService from './loanServices';
 
 //
@@ -186,5 +187,5 @@ export const loanSlice = createSlice({
   },
 });
 
-export const {} = loanSlice.actions;
+// export const {} = loanSlice.actions;
 export default loanSlice.reducer;

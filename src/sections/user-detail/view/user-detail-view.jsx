@@ -1,26 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { UnsuspendAUser, getAUser, resetState, suspendAUser } from 'src/features/Users/usersSlice';
+
+import { toast } from 'react-toastify';
+
+import { useParams } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
+
 import Tab from '@mui/material/Tab';
+
 import TabList from '@mui/lab/TabList';
-import TabContext from '@mui/lab/TabContext';
+
 import TabPanel from '@mui/lab/TabPanel';
+
+import TabContext from '@mui/lab/TabContext';
 //
 
 import Stack from '@mui/material/Stack';
 // import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import { useParams } from 'react-router-dom';
 
-import { Button, Card, Grid } from '@mui/material';
-
-import { toast } from 'react-toastify';
+import { Card, Button, Grid } from '@mui/material';
 
 // import Iconify from 'src/components/iconify';
+
+import { getAUser, UnsuspendAUser, resetState, suspendAUser } from 'src/features/Users/usersSlice';
 
 import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
 
@@ -34,7 +40,7 @@ export default function UserDetailPage() {
   const authState = useSelector((state) => state);
   const token = authState?.auth.user?.data?.token;
   const { id } = useParams();
-  const { isSuccess1, isError, isLoading, unsuspendData, suspendData } = userState;
+  const { isSuccess1, isError, unsuspendData, suspendData } = userState;
 
   useEffect(() => {
     if (isSuccess1) {

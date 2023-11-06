@@ -1,5 +1,8 @@
-import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+
+import { useState, useEffect } from 'react';
+
+import { List, Collapse } from '@mui/material';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -7,10 +10,10 @@ import Drawer from '@mui/material/Drawer';
 import Avatar from '@mui/material/Avatar';
 import { alpha } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import ListItemButton from '@mui/material/ListItemButton';
 
-import { KeyboardArrowDown } from '@mui/icons-material';
-import { KeyboardArrowUp } from '@mui/icons-material';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+
+import ListItemButton from '@mui/material/ListItemButton';
 
 import { usePathname } from 'src/routes/hooks';
 import { RouterLink } from 'src/routes/components';
@@ -26,7 +29,6 @@ import { NAV } from './config-layout';
 import navConfig from './config-navigation';
 
 /* new */
-import { List, ListItem, ListItemIcon, ListItemText, Collapse, Divider } from '@mui/material';
 
 /* new */
 

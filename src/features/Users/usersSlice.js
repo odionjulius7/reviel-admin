@@ -1,6 +1,8 @@
-import { createSlice, createAsyncThunk, createAction } from '@reduxjs/toolkit';
-import usersService from './usersServices';
+import { createSlice, createAction, createAsyncThunk } from '@reduxjs/toolkit';
+
 import { toast } from 'react-toastify';
+
+import usersService from './usersServices';
 
 const initialState = {
   users: [],
@@ -71,7 +73,7 @@ export const resetState = createAction('Reset_all');
 
 export const usersSlice = createSlice({
   name: 'users',
-  initialState: initialState,
+  initialState,
   reducers: {
     setPageData: (state, action) => {
       state.person = action.payload;

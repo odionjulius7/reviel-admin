@@ -11,14 +11,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
 // import { users } from 'src/_mock/user';
+import Grid from '@mui/material/Unstable_Grid2';
 
 import Scrollbar from 'src/components/scrollbar';
 
-import Grid from '@mui/material/Unstable_Grid2';
-
-import { getUserMetrics, getUsers } from 'src/features/Users/usersSlice';
-
 import { useDispatch, useSelector } from 'react-redux';
+
+import { getUsers, getUserMetrics } from 'src/features/Users/usersSlice';
 
 import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
 
