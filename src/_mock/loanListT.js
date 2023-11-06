@@ -14,16 +14,4 @@ export const loans = [...Array(24)].map((_, index) => ({
   initiationDate: '12/03/2023',
   dueDate: '12/03/2023',
   status: sample(['active', 'pending', 'completed', 'bad', 'inactive']),
-  // role: sample([
-  //   'Leader',
-  //   'Hr Manager',
-  //   'UI Designer',
-  //   'UX Designer',
-  //   'UI/UX Designer',
-  //   'Project Manager',
-  //   'Backend Developer',
-  //   'Full Stack Designer',
-  //   'Front End Developer',
-  //   'Full Stack Developer',
-  // ]),
 }));

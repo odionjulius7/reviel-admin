@@ -16,6 +16,8 @@ import { Link } from 'react-router-dom';
 
 import Iconify from 'src/components/iconify';
 
+import moment from 'moment';
+
 // ----------------------------------------------------------------------
 
 export default function LoansTableRow({
@@ -51,17 +53,35 @@ export default function LoansTableRow({
 
         <TableCell align="center">{borrower}</TableCell>
 
-        <TableCell align="center">{loanAmount}</TableCell>
+        <TableCell align="center">
+          {new Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: 'NGN',
+          }).format(loanAmount)}
+        </TableCell>
 
-        <TableCell align="center">{expectedReturn}</TableCell>
-        <TableCell align="center">{balance}</TableCell>
-        <TableCell align="center">{initiationDate}</TableCell>
-        <TableCell align="center">{dueDate}</TableCell>
+        <TableCell align="center">
+          {new Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: 'NGN',
+          }).format(expectedReturn)}
+        </TableCell>
+        <TableCell align="center">
+          {new Intl.NumberFormat('en-NG', {
+            style: 'currency',
+            currency: 'NGN',
+          }).format(balance)}
+        </TableCell>
+        <TableCell align="center">{moment(initiationDate).format('L')}</TableCell>
+        <TableCell align="center">{moment(dueDate).format('L')}</TableCell>
 
         <TableCell align="center">
           <Label
             color={
-              (status === 'bad' && 'error') || (status === 'inactive' && 'warning') || 'success'
+              (status === 'bad' && 'error') ||
+              (status === 'pending' && 'warning') ||
+              (status === 'inactive' && 'warning') ||
+              'success'
             }
           >
             {status}

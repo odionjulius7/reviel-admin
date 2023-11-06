@@ -1,14 +1,16 @@
 import * as React from 'react';
 
-import { Button } from '@mui/material';
+// import { Button } from '@mui/material';
+import moment from 'moment';
 
 import { DataGrid } from '@mui/x-data-grid';
+import { useSelector } from 'react-redux';
 
 const columns = [
   {
     field: 'id',
     headerName: 'Credit ID',
-    width: 70,
+    width: 90,
     renderCell: (params) => <a href={`/loan/${params.row.id}`}>{params.value}</a>,
   },
   { field: 'lender', headerName: 'Lender', width: 150 },
@@ -45,12 +47,47 @@ const rows = [
   },
 ];
 
-function handleDelete(id) {
-  // Add your delete logic here, e.g., make an API call to delete the item
-  console.log(`Deleting item with ID: ${id}`);
-}
-
 export default function LoanDetailsTable() {
+  const loanState = useSelector((state) => state.loan);
+
+  const loanObj = [loanState?.loan];
+
+  const loansData = loanObj?.map((loan, index) => {
+    // Create loan data for each item
+    const loanData = {
+      id: loan?.id || 0,
+      lender: loan?.lender_first_name,
+      borrower: loan?.borrower_first_name,
+      loanAmount: new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+      }).format(loan?.amount),
+      expectedReturn: new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+      }).format(loan?.expected_return),
+      balance: new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+      }).format((loan?.expected_return ?? 0) - (loan?.amount_paid ?? 0)),
+      initiationDate: moment(loan?.createdAt).format('L'),
+      dueDate: moment(loan?.due_date).format('L'),
+      status: loan?.status ? 'paid' : 'not paid',
+    };
+
+    // You can also add the index if needed
+    loanData.index = index;
+
+    return loanData;
+  });
+
+  // console.log(loansData);
+
+  function handleDelete(id) {
+    // Add your delete logic here, e.g., make an API call to delete the item
+    console.log(`Deleting item with ID: ${id}`);
+  }
+
   return (
     <div
       style={{
@@ -64,7 +101,7 @@ export default function LoanDetailsTable() {
     >
       <h2 style={{ padding: '2rem 0rem 1rem 1rem' }}>Loan Details</h2>
       <DataGrid
-        rows={rows}
+        rows={loansData}
         columns={columns}
         initialState={{
           pagination: {

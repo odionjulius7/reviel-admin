@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -11,16 +11,61 @@ import { LoadingButton } from '@mui/lab';
 
 import Iconify from 'src/components/iconify/iconify';
 
-import { bgGradient } from 'src/theme/css';
+import * as yup from 'yup';
+import { useFormik } from 'formik';
 
+import { bgGradient } from 'src/theme/css';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { changePassword } from 'src/features/auth/authSlice';
+
+// Yup validation setting, yup doc
+const schema = yup.object().shape({
+  old_password: yup.string().required('old password is Required'),
+  new_password: yup.string().required('new password is Required'),
+});
 // ----------------------------------------------------------------------
 
 export default function AccountPage() {
+  const dispatch = useDispatch();
+  const authState = useSelector((state) => state);
+  const token = authState?.auth.user?.data?.token;
   const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
-  // const handleClick = () => {
-  //   router.push('/dashboard');
-  // };
+
+  const { isSuccess2, isError } = authState.auth;
+
+  const formik = useFormik({
+    // initial form state
+    initialValues: {
+      old_password: '',
+      new_password: '',
+    },
+    validationSchema: schema, // to validate the yup setup schema
+    onSubmit: (values) => {
+      const userData = {
+        old_password: values?.old_password,
+        new_password: values?.new_password,
+        token,
+      };
+      // pass the value of the data got from formik to the login action
+      dispatch(changePassword(userData));
+      // console.log(userData);
+    },
+  });
+
+  useEffect(() => {
+    if (isSuccess2) {
+      toast.success('successfully changed password!');
+      formik.setFieldValue('old_password', '');
+      formik.setFieldValue('new_password', '');
+    }
+
+    if (isError) {
+      toast.error('Something Went Wrong!');
+    }
+  }, [isSuccess2, isError, formik]);
+
   const renderForm = (
     <>
       <Stack
@@ -30,8 +75,11 @@ export default function AccountPage() {
         }}
       >
         <TextField
-          name="currentPassword"
+          name="old_password"
           label="Current Password"
+          value={formik.values.old_password}
+          onChange={formik.handleChange('old_password')}
+          onBlur={formik.handleBlur('old_password')}
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -43,12 +91,25 @@ export default function AccountPage() {
             ),
           }}
         />
+        <div
+          className="error mt-2"
+          style={{
+            color: 'red',
+            fontSize: '12px',
+            marginTop: '0px',
+          }}
+        >
+          {formik.touched.old_password && formik.errors.old_password}
+        </div>
         <TextField
           sx={{
             margin: '1rem 0',
           }}
-          name="newPassword"
+          name="new_password"
           label="New Password"
+          value={formik.values.new_password}
+          onChange={formik.handleChange('new_password')}
+          onBlur={formik.handleBlur('new_password')}
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -60,23 +121,16 @@ export default function AccountPage() {
             ),
           }}
         />
-        <TextField
-          sx={{
-            margin: '1rem 0',
+        <div
+          className="error mt-2"
+          style={{
+            color: 'red',
+            fontSize: '12px',
+            marginTop: '0px',
           }}
-          name="confirmNewPassword"
-          label="Confirm New Password"
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+        >
+          {formik.touched.new_password && formik.errors.new_password}
+        </div>
       </Stack>
 
       <LoadingButton
@@ -85,6 +139,7 @@ export default function AccountPage() {
         type="submit"
         variant="contained"
         color="inherit"
+        onClick={formik.handleSubmit}
         // onClick={handleClick}
       >
         Change Password

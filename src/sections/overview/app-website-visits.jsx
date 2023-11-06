@@ -24,7 +24,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
     colors,
     plotOptions: {
       bar: {
-        columnWidth: '16%',
+        columnWidth: '17%',
       },
     },
     fill: {
@@ -44,7 +44,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
       y: {
         formatter: (value) => {
           if (typeof value !== 'undefined') {
-            return `${value.toFixed(0)} visits`;
+            return `${value.toFixed(0)} loans`;
           }
           return value;
         },
@@ -55,7 +55,10 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
 
   return (
     <Card {...other}>
-      <CardHeader title={title} subheader={subheader} />
+      <CardHeader
+        title={title}
+        //  subheader={subheader}
+      />
 
       <Box sx={{ p: 3, pb: 1 }}>
         <Chart
@@ -64,7 +67,7 @@ export default function AppWebsiteVisits({ title, subheader, chart, ...other }) 
           series={series}
           options={chartOptions}
           width="100%"
-          height={364}
+          height={400}
         />
       </Box>
     </Card>

@@ -1,14 +1,21 @@
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
 
 function ProtectedRoute({ children }) {
   const location = useLocation(); // Get the current location
 
+  const userData = useSelector((state) => state.auth.user);
+
+  const token = userData?.data?.token;
+  // console.log(token);
+  // const isAuthenticated = token;
+
   const isUserAuthenticated = () => {
-    // For instance, if you're using a state management library like Redux:
-    // import { useSelector } from 'react-redux';
-    // const isAuthenticated = useSelector(state => state.auth.isAuthenticated);
-    const isAuthenticated = true; // Change this to your actual check.
+    let isAuthenticated = false; // Default to false
+    if (token !== null && token !== undefined && token !== '') {
+      isAuthenticated = true;
+    }
 
     return isAuthenticated;
   };

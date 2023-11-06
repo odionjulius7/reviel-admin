@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -10,12 +10,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import Grid from '@mui/material/Unstable_Grid2';
 
-import { loans } from 'src/_mock/loanListT';
+// import { loans } from 'src/_mock/loanListT';
 
 // import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
+
+import { getloanMetric, allLoanRecords } from 'src/features/Loan/loanSlice';
+
+import { useDispatch, useSelector } from 'react-redux';
 
 import TableNoData from '../table-no-data';
 import TableEmptyRows from '../table-empty-rows';
@@ -29,6 +33,35 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 // ----------------------------------------------------------------------
 
 export default function LoanListPage() {
+  const dispatch = useDispatch();
+  const loanState = useSelector((state) => state.loan);
+  const authState = useSelector((state) => state);
+  const token = authState?.auth.user?.data?.token;
+  const loan_metrics = loanState?.loanMetrics;
+  // console.log(loan_metrics);
+
+  // Table Loans
+  const loans = loanState?.loans?.map((loan, index) => {
+    // Create loan data for each item
+    const loanData = {
+      creditId: loan.id,
+      lender: loan.lender_first_name,
+      borrower: loan.borrower_first_name,
+      loanAmount: loan.amount,
+      expectedReturn: loan.expected_return,
+      balance: (loan.expected_return ?? 0) - (loan?.amount_paid ?? 0),
+      initiationDate: loan.createdAt,
+      dueDate: loan.due_date,
+      status: loan.status ? 'completed' : 'pending',
+    };
+
+    // You can also add the index if needed
+    loanData.index = index;
+
+    return loanData;
+  });
+
+  //
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -49,33 +82,7 @@ export default function LoanListPage() {
     }
   };
 
-  // const handleSelectAllClick = (event) => {
-  //   if (event.target.checked) {
-  //     const newSelecteds = users.map((n) => n.name);
-  //     setSelected(newSelecteds);
-  //     return;
-  //   }
-  //   setSelected([]);
-  // };
-
-  // const handleClick = (event, name) => {
-  //   const selectedIndex = selected.indexOf(name);
-  //   let newSelected = [];
-  //   if (selectedIndex === -1) {
-  //     newSelected = newSelected.concat(selected, name);
-  //   } else if (selectedIndex === 0) {
-  //     newSelected = newSelected.concat(selected.slice(1));
-  //   } else if (selectedIndex === selected.length - 1) {
-  //     newSelected = newSelected.concat(selected.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelected = newSelected.concat(
-  //       selected.slice(0, selectedIndex),
-  //       selected.slice(selectedIndex + 1)
-  //     );
-  //   }
-  //   setSelected(newSelected);
-  // };
-
+  //
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -97,7 +104,13 @@ export default function LoanListPage() {
   });
 
   const notFound = !dataFiltered.length && !!filterName;
+  //
 
+  useEffect(() => {
+    dispatch(getloanMetric(token));
+    dispatch(allLoanRecords(token));
+  }, [dispatch, token]);
+  //
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -166,8 +179,8 @@ export default function LoanListPage() {
 
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
-            title="No. Of Actove Loans"
-            total={93}
+            title="No. Of Active Loans"
+            total={loan_metrics?.loans_active}
             color="info"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
@@ -203,7 +216,7 @@ export default function LoanListPage() {
               <LoanTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={loans.length}
+                rowCount={loans?.length}
                 // numSelected={selected.length}
                 onRequestSort={handleSort}
                 // onSelectAllClick={handleSelectAllClick}
@@ -242,7 +255,7 @@ export default function LoanListPage() {
 
                 <TableEmptyRows
                   height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, loans.length)}
+                  emptyRows={emptyRows(page, rowsPerPage, loans?.length)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}
@@ -254,7 +267,7 @@ export default function LoanListPage() {
         <TablePagination
           page={page}
           component="div"
-          count={loans.length}
+          count={loans?.length}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}

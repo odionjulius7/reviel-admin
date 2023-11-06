@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
+// import Button from '@mui/material/Button';
+// import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
@@ -17,30 +17,78 @@ import { useRouter } from 'src/routes/hooks';
 
 import { bgGradient } from 'src/theme/css';
 
+import * as yup from 'yup';
+import { useFormik } from 'formik';
+
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from 'src/features/auth/authSlice';
 
 // ----------------------------------------------------------------------
-
+// Yup validation setting, yup doc
+const schema = yup.object().shape({
+  email: yup.string().email('Email should be valid').required('Email is Required'),
+  password: yup.string().required('Password is Required'),
+});
 export default function LoginView() {
+  const dispatch = useDispatch();
+  const authState = useSelector((state) => state);
+
+  const { user, isError, isSuccess, isLoading, message } = authState.auth;
+  const token = user?.data?.token;
+
   const theme = useTheme();
 
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleClick = () => {
-    router.push('/dashboard');
-  };
+  // const handleClick = () => {
+  //   router.push('/dashboard');
+  // };
+
+  // Formik state, check doc
+  const formik = useFormik({
+    // initial form state
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    validationSchema: schema, // to validate the yup setup schema
+    onSubmit: (values) => {
+      // pass the value of the data got from formik to the login action
+      dispatch(login(values));
+    },
+  });
 
   const renderForm = (
     <>
       <Stack spacing={3}>
-        <TextField name="email" label="Email address" />
+        <TextField
+          value={formik.values.email}
+          onChange={formik.handleChange('email')}
+          onBlur={formik.handleBlur('email')}
+          // name="email"
+          label="Email address"
+        />
+        <div
+          className="error mt-2"
+          style={{
+            color: 'red',
+            fontSize: '12px',
+            marginTop: '0px',
+          }}
+        >
+          {formik.touched.email && formik.errors.email}
+        </div>
 
         <TextField
           name="password"
           label="Password"
+          value={formik.values.password}
+          onChange={formik.handleChange('password')}
+          onBlur={formik.handleBlur('password')}
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -52,6 +100,16 @@ export default function LoginView() {
             ),
           }}
         />
+        <div
+          className="error mt-2"
+          style={{
+            color: 'red',
+            fontSize: '12px',
+            marginTop: '0px',
+          }}
+        >
+          {formik.touched.password && formik.errors.password}
+        </div>
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
@@ -66,12 +124,23 @@ export default function LoginView() {
         type="submit"
         variant="contained"
         color="inherit"
-        onClick={handleClick}
+        onClick={formik.handleSubmit}
+        // onSubmit={formik.handleSubmit}
       >
-        Login
+        {isLoading ? 'signing you in' : 'Login'}
       </LoadingButton>
     </>
   );
+
+  //
+  useEffect(() => {
+    if (token) {
+      router.push('/');
+    } else {
+      router.push('/login');
+    }
+  }, [token, router]);
+  //
 
   return (
     <Box
@@ -107,51 +176,6 @@ export default function LoginView() {
           >
             Sign in to Reviel
           </Typography>
-
-          {/* <Typography variant="body2" sx={{ mt: 2, mb: 5 }}>
-            Don’t have an account?
-            <Link variant="subtitle2" sx={{ ml: 0.5 }}>
-              Get started
-            </Link>
-          </Typography> */}
-
-          {/* <Stack direction="row" spacing={2}>
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:google-fill" color="#DF3E30" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:facebook-fill" color="#1877F2" />
-            </Button>
-
-            <Button
-              fullWidth
-              size="large"
-              color="inherit"
-              variant="outlined"
-              sx={{ borderColor: alpha(theme.palette.grey[500], 0.16) }}
-            >
-              <Iconify icon="eva:twitter-fill" color="#1C9CEA" />
-            </Button>
-          </Stack>
-
-          <Divider sx={{ my: 3 }}>
-            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-              OR
-            </Typography>
-          </Divider> */}
 
           {renderForm}
         </Card>

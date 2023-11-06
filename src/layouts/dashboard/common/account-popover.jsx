@@ -10,27 +10,34 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 
 import { account } from 'src/_mock/account';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from 'src/features/auth/authSlice';
 
 // ----------------------------------------------------------------------
 
-const MENU_OPTIONS = [
-  {
-    label: 'Home',
-    icon: 'eva:home-fill',
-  },
-  {
-    label: 'Profile',
-    icon: 'eva:person-fill',
-  },
-  {
-    label: 'Settings',
-    icon: 'eva:settings-2-fill',
-  },
-];
+// const MENU_OPTIONS = [
+//   {
+//     label: 'Home',
+//     icon: 'eva:home-fill',
+//   },
+//   {
+//     label: 'Profile',
+//     icon: 'eva:person-fill',
+//   },
+//   {
+//     label: 'Settings',
+//     icon: 'eva:settings-2-fill',
+//   },
+// ];
 
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
+  const dispatch = useDispatch();
+  const authState = useSelector((state) => state);
+
+  const { user, isError, isSuccess, isLoading, message } = authState.auth;
+  const user1 = user?.data?.user;
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
@@ -39,6 +46,8 @@ export default function AccountPopover() {
 
   const handleClose = () => {
     setOpen(null);
+    // dispatch(logout());
+    // console.log('ji');
   };
 
   return (
@@ -85,27 +94,22 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2 }}>
           <Typography variant="subtitle2" noWrap>
-            {account.displayName}
+            {user1?.first_name}
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {account.email}
+            {user1?.email}
           </Typography>
         </Box>
-
-        <Divider sx={{ borderStyle: 'dashed' }} />
-
-        {MENU_OPTIONS.map((option) => (
-          <MenuItem key={option.label} onClick={handleClose}>
-            {option.label}
-          </MenuItem>
-        ))}
 
         <Divider sx={{ borderStyle: 'dashed', m: 0 }} />
 
         <MenuItem
           disableRipple
           disableTouchRipple
-          onClick={handleClose}
+          onClick={() => {
+            handleClose();
+            dispatch(logout());
+          }}
           sx={{ typography: 'body2', color: 'error.main', py: 1.5 }}
         >
           Logout

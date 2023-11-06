@@ -1,21 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Table from '@mui/material/Table';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import TableBody from '@mui/material/TableBody';
 import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
-import { users } from 'src/_mock/user';
+// import { users } from 'src/_mock/user';
 
-import Iconify from 'src/components/iconify';
 import Scrollbar from 'src/components/scrollbar';
 
 import Grid from '@mui/material/Unstable_Grid2';
+
+import { getUserMetrics, getUsers } from 'src/features/Users/usersSlice';
+
+import { useDispatch, useSelector } from 'react-redux';
 
 import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
 
@@ -29,6 +32,34 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 // ----------------------------------------------------------------------
 
 export default function UserPage() {
+  const dispatch = useDispatch();
+  const userState = useSelector((state) => state.users);
+  const authState = useSelector((state) => state);
+  const userMetrics = userState?.userMetrics;
+  // console.log(userMetrics);
+  const token = authState?.auth.user?.data?.token;
+  // Table Users
+  const users = userState?.users?.data?.map((user, index) => {
+    // Create loan data for each item
+    const userData = {
+      id: user.id,
+      firstName: user?.first_name,
+      lastName: user?.last_name,
+      phoneNumber: user?.phone,
+      status: user?.kyc_verification_status ? 'verified' : 'unverified',
+      email: user?.email,
+      dateRegistered: user?.createdAt,
+      dateVerified: '??',
+    };
+
+    // You can also add the index if needed
+    userData.index = index;
+
+    return userData;
+  });
+  //
+  // console.log(usersData || []);
+  //
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -91,21 +122,37 @@ export default function UserPage() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: users,
+    inputData: users || [
+      {
+        id: '',
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        status: '',
+        email: '',
+        dateRegistered: '',
+        dateVerified: '',
+      },
+    ],
     comparator: getComparator(order, orderBy),
     filterName,
   });
 
   const notFound = !dataFiltered.length && !!filterName;
-
+  //
+  useEffect(() => {
+    dispatch(getUsers(token));
+    dispatch(getUserMetrics(token));
+  }, [dispatch, token]);
+  //
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Users</Typography>
 
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
+        {/* <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
           New User
-        </Button>
+        </Button> */}
       </Stack>
 
       <Grid
@@ -118,7 +165,7 @@ export default function UserPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Total no. of users"
-            total={1000}
+            total={(userMetrics?.verified ?? 0) + (userMetrics?.not_verified ?? 0)}
             color="warning"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
           />
@@ -126,7 +173,7 @@ export default function UserPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Verified users"
-            total={600}
+            total={userMetrics?.verified}
             color="success"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
@@ -134,7 +181,7 @@ export default function UserPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="unverified users"
-            total={90}
+            total={userMetrics?.not_verified}
             color="success"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
@@ -154,7 +201,7 @@ export default function UserPage() {
               <UserTableHead
                 order={order}
                 orderBy={orderBy}
-                rowCount={users.length}
+                rowCount={users?.length}
                 numSelected={selected.length}
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
@@ -190,7 +237,7 @@ export default function UserPage() {
 
                 <TableEmptyRows
                   height={77}
-                  emptyRows={emptyRows(page, rowsPerPage, users.length)}
+                  emptyRows={emptyRows(page, rowsPerPage, users?.length)}
                 />
 
                 {notFound && <TableNoData query={filterName} />}
@@ -202,7 +249,7 @@ export default function UserPage() {
         <TablePagination
           page={page}
           component="div"
-          count={users.length}
+          count={users?.length}
           rowsPerPage={rowsPerPage}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}

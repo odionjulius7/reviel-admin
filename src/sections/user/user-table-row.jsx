@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom';
 
 import TableCell from '@mui/material/TableCell';
 
+import moment from 'moment';
+
 // ----------------------------------------------------------------------
 
 export default function UserTableRow({
@@ -33,56 +35,27 @@ export default function UserTableRow({
   // };
 
   return (
-    <>
-      <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
-        {/* <TableCell padding="checkbox">
+    <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
+      {/* <TableCell padding="checkbox">
           <Checkbox disableRipple checked={selected} onChange={handleClick} />
         </TableCell> 
         */}
 
-        <TableCell>
-          <Link to={`/user/${id}`}>{firstName}</Link>
-        </TableCell>
+      <TableCell>
+        <Link to={`/user/${id}`}>{firstName}</Link>
+      </TableCell>
 
-        <TableCell>{lastName}</TableCell>
+      <TableCell>{lastName}</TableCell>
 
-        <TableCell>{phoneNumber}</TableCell>
-        <TableCell>{email}</TableCell>
+      <TableCell>{phoneNumber}</TableCell>
+      <TableCell>{email}</TableCell>
 
-        <TableCell>
-          <Label color={(status === 'unverified' && 'error') || 'success'}>{status}</Label>
-        </TableCell>
-        <TableCell align="center">{dateRegistered}</TableCell>
-        <TableCell align="center">{dateVerified}</TableCell>
-
-        {/* <TableCell align="right">
-          <IconButton onClick={handleOpenMenu}>
-            <Iconify icon="eva:more-vertical-fill" />
-          </IconButton>
-        </TableCell> */}
-      </TableRow>
-
-      {/* <Popover
-        open={!!open}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-        transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-        PaperProps={{
-          sx: { width: 140 },
-        }}
-      >
-        <MenuItem onClick={handleCloseMenu}>
-          <Iconify icon="eva:edit-fill" sx={{ mr: 2 }} />
-          Edit
-        </MenuItem>
-
-        <MenuItem onClick={handleCloseMenu} sx={{ color: 'error.main' }}>
-          <Iconify icon="eva:trash-2-outline" sx={{ mr: 2 }} />
-          Delete
-        </MenuItem>
-      </Popover> */}
-    </>
+      <TableCell>
+        <Label color={(status === 'unverified' && 'error') || 'success'}>{status}</Label>
+      </TableCell>
+      <TableCell align="center">{moment(dateRegistered).format('L')}</TableCell>
+      <TableCell align="center">{moment(dateVerified).format('L')}</TableCell>
+    </TableRow>
   );
 }
 

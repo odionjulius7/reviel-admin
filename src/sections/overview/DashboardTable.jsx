@@ -1,6 +1,9 @@
 import * as React from 'react';
+import { useEffect } from 'react';
 
 import { DataGrid } from '@mui/x-data-grid';
+import { useDispatch, useSelector } from 'react-redux';
+import { allLoanRecords, loanTransaction } from 'src/features/Loan/loanSlice';
 
 const columns = [
   {
@@ -12,8 +15,8 @@ const columns = [
   { field: 'lender', headerName: 'Lender', width: 160 },
   { field: 'borrower', headerName: 'Borrower', width: 160 },
   {
-    field: 'phone',
-    headerName: 'Phone Number',
+    field: 'amount',
+    headerName: 'Amount',
     // type: 'number',
     width: 130,
   },
@@ -25,17 +28,18 @@ const columns = [
   //     width: 160,
   //     valueGetter: (params) => `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   //   },
-  {
-    field: 'status',
-    headerName: 'Status',
-    // type: 'number',
-    width: 130,
-  },
+
   {
     field: 'repaymentDate',
     headerName: 'Repayment Date',
     // type: 'number',
     width: 160,
+  },
+  {
+    field: 'status',
+    headerName: 'Status',
+    // type: 'number',
+    width: 130,
   },
   {
     field: 'message',
@@ -50,32 +54,26 @@ const rows = [
     id: 1432,
     lender: 'Mike',
     borrower: 'Joy',
-    phone: 20987867565,
-    status: 'pending',
+    amount: '50,000',
     repaymentDate: '11/28/2023',
-    message: 'lorem ipsum make a ka dhh jhfdh',
-  },
-  {
-    id: 1422,
-    lender: 'Mike',
-    borrower: 'Joy',
-    phone: 20987867565,
     status: 'pending',
-    repaymentDate: '11/28/2023',
-    message: 'lorem ipsum make a ka dhh jhfdh',
-  },
-  {
-    id: 1932,
-    lender: 'Mike',
-    borrower: 'Joy',
-    phone: 20987867565,
-    status: 'pending',
-    repaymentDate: '11/28/2023',
     message: 'lorem ipsum make a ka dhh jhfdh',
   },
 ];
 
 export default function DashboardTable() {
+  const dispatch = useDispatch();
+  const loanState = useSelector((state) => state.loan);
+  const authState = useSelector((state) => state);
+  // console.log(loanState);
+  const token = authState?.auth.user?.data?.token;
+  // console.log(loanState?.loanTransactionData);
+
+  useEffect(() => {
+    // dispatch(resetState()); // at first render alway clear the state(like loading, success etc)
+    dispatch(loanTransaction(token));
+    // dispatch(allLoanRecords(token));
+  }, [dispatch, token]);
   return (
     <div
       style={{

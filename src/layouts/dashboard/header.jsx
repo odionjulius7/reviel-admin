@@ -17,7 +17,8 @@ import Searchbar from './common/searchbar';
 import { NAV, HEADER } from './config-layout';
 import AccountPopover from './common/account-popover';
 // import LanguagePopover from './common/language-popover';
-import NotificationsPopover from './common/notifications-popover';
+// import NotificationsPopover from './common/notifications-popover';
+// import { useSelector } from 'react-redux';
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +41,7 @@ export default function Header({ onOpenNav }) {
 
       <Stack direction="row" alignItems="center" spacing={1}>
         {/* <LanguagePopover /> */}
-        <NotificationsPopover />
+        {/* <NotificationsPopover /> */}
         <AccountPopover />
       </Stack>
     </>

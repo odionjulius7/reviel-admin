@@ -1,13 +1,16 @@
 import * as React from 'react';
-import { Fragment } from 'react';
+import PropTypes from 'prop-types';
+// import { Fragment } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Typography from '@mui/material/Typography';
+import moment from 'moment';
 
-export default function UserDetailTable() {
+export default function UserDetailTable({ item }) {
+  // console.log(item);
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       <ListItem alignItems="center" gap={13}>
@@ -17,16 +20,14 @@ export default function UserDetailTable() {
         <ListItemText
           // primary="Brunch this weekend?"
           secondary={
-            <>
-              <Typography
-                sx={{ display: 'inline', marginLeft: '2rem' }}
-                component="span"
-                variant="body"
-                color="text.primary"
-              >
-                Ali Connors
-              </Typography>
-            </>
+            <Typography
+              sx={{ display: 'inline', marginLeft: '2rem' }}
+              component="span"
+              variant="body"
+              color="text.primary"
+            >
+              {item?.first_name}
+            </Typography>
           }
         />
       </ListItem>
@@ -38,16 +39,14 @@ export default function UserDetailTable() {
         <ListItemText
           // primary="Brunch this weekend?"
           secondary={
-            <>
-              <Typography
-                sx={{ display: 'inline', marginLeft: '2rem' }}
-                component="span"
-                variant="body"
-                color="text.primary"
-              >
-                Ola
-              </Typography>
-            </>
+            <Typography
+              sx={{ display: 'inline', marginLeft: '2rem' }}
+              component="span"
+              variant="body"
+              color="text.primary"
+            >
+              {item?.last_name}
+            </Typography>
           }
         />
       </ListItem>
@@ -59,16 +58,14 @@ export default function UserDetailTable() {
         <ListItemText
           // primary="Brunch this weekend?"
           secondary={
-            <>
-              <Typography
-                sx={{ display: 'inline', marginLeft: '2rem' }}
-                component="span"
-                variant="body"
-                color="text.primary"
-              >
-                0987654321
-              </Typography>
-            </>
+            <Typography
+              sx={{ display: 'inline', marginLeft: '2rem' }}
+              component="span"
+              variant="body"
+              color="text.primary"
+            >
+              {item?.phone}
+            </Typography>
           }
         />
       </ListItem>
@@ -80,16 +77,14 @@ export default function UserDetailTable() {
         <ListItemText
           // primary="Brunch this weekend?"
           secondary={
-            <>
-              <Typography
-                sx={{ display: 'inline', marginLeft: '2rem' }}
-                component="span"
-                variant="body"
-                color="text.primary"
-              >
-                example@gmail.com
-              </Typography>
-            </>
+            <Typography
+              sx={{ display: 'inline', marginLeft: '2rem' }}
+              component="span"
+              variant="body"
+              color="text.primary"
+            >
+              {item?.email}
+            </Typography>
           }
         />
       </ListItem>
@@ -101,16 +96,14 @@ export default function UserDetailTable() {
         <ListItemText
           // primary="Brunch this weekend?"
           secondary={
-            <>
-              <Typography
-                sx={{ display: 'inline', marginLeft: '2rem' }}
-                component="span"
-                variant="body"
-                color="text.primary"
-              >
-                Unverified
-              </Typography>
-            </>
+            <Typography
+              sx={{ display: 'inline', marginLeft: '2rem' }}
+              component="span"
+              variant="body"
+              color="text.primary"
+            >
+              {item?.kyc_verification_status ? 'verified' : 'Unverified'}
+            </Typography>
           }
         />
       </ListItem>
@@ -122,16 +115,14 @@ export default function UserDetailTable() {
         <ListItemText
           // primary="Brunch this weekend?"
           secondary={
-            <>
-              <Typography
-                sx={{ display: 'inline', marginLeft: '2rem' }}
-                component="span"
-                variant="body"
-                color="text.primary"
-              >
-                19/08/2023
-              </Typography>
-            </>
+            <Typography
+              sx={{ display: 'inline', marginLeft: '2rem' }}
+              component="span"
+              variant="body"
+              color="text.primary"
+            >
+              {moment(item?.createdAt).format('L')}
+            </Typography>
           }
         />
       </ListItem>
@@ -143,19 +134,28 @@ export default function UserDetailTable() {
         <ListItemText
           // primary="Brunch this weekend?"
           secondary={
-            <>
-              <Typography
-                sx={{ display: 'inline', marginLeft: '2rem' }}
-                component="span"
-                variant="body"
-                color="text.primary"
-              >
-                12/11/2023
-              </Typography>
-            </>
+            <Typography
+              sx={{ display: 'inline', marginLeft: '2rem' }}
+              component="span"
+              variant="body"
+              color="text.primary"
+            >
+              ??
+            </Typography>
           }
         />
       </ListItem>
     </List>
   );
 }
+
+UserDetailTable.propTypes = {
+  item: PropTypes.shape({
+    createdAt: PropTypes.any,
+    email: PropTypes.any,
+    kyc_verification_status: PropTypes.any,
+    phone: PropTypes.any,
+    last_name: PropTypes.any,
+    first_name: PropTypes.any,
+  }).isRequired,
+};
