@@ -205,6 +205,7 @@ export default function UserPage() {
                 onRequestSort={handleSort}
                 onSelectAllClick={handleSelectAllClick}
                 headLabel={[
+                  { id: 'id', label: 'User ID', align: 'center' },
                   { id: 'firstName', label: 'First Name' },
                   { id: 'lastName', label: 'Last Name' },
                   { id: 'phoneNumber', label: 'Phone Number' },

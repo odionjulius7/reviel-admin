@@ -54,27 +54,27 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="Active Loans "
-            total={loan_metrics?.loans_active}
+            total={loan_metrics?.loans_active || 0.001}
             color="success"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="Over Due Payment"
-            total={loan_metrics?.loans_due}
+            total={loan_metrics?.loans_due || 0.001}
             color="info"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="No. Of Loans Initiated"
-            total={loan_metrics?.loans_initiated}
+            total={loan_metrics?.loans_initiated || 0.001}
             color="warning"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
           />
         </Grid>
 
@@ -82,37 +82,37 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="Total amount of loans initated"
-            total={loan_metrics?.total_amount}
+            total={loan_metrics?.total_amount || 0.001}
             color="info"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
-            icon={<span style={{ fontSize: '30px' }}>&#8358; </span>}
+            // icon={<span style={{ fontSize: '30px' }}>&#8358; </span>}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="No. Of Pending KYC Requests"
-            total={loan_metrics?.kyc_pending || 0.01}
+            total={loan_metrics?.kyc_pending || 0.001}
             color="error"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="No. Of Approved KYC Requests"
-            total={loan_metrics?.kyc_approved}
+            total={loan_metrics?.kyc_approved || 0.001}
             color="error"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
         </Grid>
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="No. Of Declined KYC Requests"
-            total={loan_metrics?.kyc_notapproved}
+            total={loan_metrics?.kyc_notapproved || 0.001}
             color="error"
-            icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
+            // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
         </Grid>
 
@@ -150,25 +150,29 @@ export default function AppView() {
                   type: 'line',
                   // type: 'column',
                   fill: 'solid',
-                  data: [23, 11, 0, 0, 20, 20, 0, 60, 0, 0],
+                  data: [],
+                  // data: [23, 11, 0, 0, 20, 20, 0, 60, 0, 0],
                 },
                 {
                   name: 'no. of overdue loans',
                   type: 'line',
                   fill: 'solid',
-                  data: [44, 55, 41, 67, 22, 43, 21, 0, 0, 70, 20],
+                  data: [],
+                  // data: [44, 55, 41, 67, 22, 43, 21, 0, 0, 70, 20],
                 },
                 {
                   name: 'no. of completed loans',
                   type: 'line',
                   fill: 'solid',
-                  data: [11, 25, 36, 0, 0, 0, 0, 52, 59, 0, 39],
+                  data: [0],
+                  // data: [11, 25, 36, 0, 0, 0, 0, 52, 59, 0, 39],
                 },
                 {
                   name: 'no. of active loans',
                   type: 'line',
                   fill: 'solid',
-                  data: [90, 25, 64, 52, 59, 36, 39, 11, 25, 36, 30],
+                  data: [0, 0, 0],
+                  // data: [90, 25, 64, 52, 59, 36, 39, 11, 25, 36, 30],
                 },
               ],
             }}

@@ -42,8 +42,9 @@ export default function UserTableRow({
         */}
 
       <TableCell>
-        <Link to={`/user/${id}`}>{firstName}</Link>
+        <Link to={`/user/${id}`}>{id}</Link>
       </TableCell>
+      <TableCell>{firstName}</TableCell>
 
       <TableCell>{lastName}</TableCell>
 

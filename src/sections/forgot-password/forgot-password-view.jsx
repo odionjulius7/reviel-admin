@@ -8,10 +8,10 @@ import Stack from '@mui/material/Stack';
 // import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
+// import IconButton from '@mui/material/IconButton';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { alpha, useTheme } from '@mui/material/styles';
-import InputAdornment from '@mui/material/InputAdornment';
+// import InputAdornment from '@mui/material/InputAdornment';
 
 import { useRouter } from 'src/routes/hooks';
 
@@ -21,28 +21,26 @@ import * as yup from 'yup';
 import { useFormik } from 'formik';
 
 import Logo from 'src/components/logo';
-import Iconify from 'src/components/iconify';
+// import Iconify from 'src/components/iconify';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from 'src/features/auth/authSlice';
+import { forgotPassword } from 'src/features/auth/authSlice';
 
 // ----------------------------------------------------------------------
 // Yup validation setting, yup doc
 const schema = yup.object().shape({
   email: yup.string().email('Email should be valid').required('Email is Required'),
-  password: yup.string().required('Password is Required'),
+  // password: yup.string().required('Password is Required'),
 });
-export default function LoginView() {
+export default function ForgotPasswordView() {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state);
 
-  const { user, isError, isSuccess, isLoading, message } = authState.auth;
-  const token = user?.data?.token;
+  const { isSuccess2, isLoading } = authState.auth;
+  console.log(authState?.auth);
 
   const theme = useTheme();
 
   const router = useRouter();
-
-  const [showPassword, setShowPassword] = useState(false);
 
   // const handleClick = () => {
   //   router.push('/dashboard');
@@ -53,14 +51,19 @@ export default function LoginView() {
     // initial form state
     initialValues: {
       email: '',
-      password: '',
     },
     validationSchema: schema, // to validate the yup setup schema
     onSubmit: (values) => {
       // pass the value of the data got from formik to the login action
-      dispatch(login(values));
+      dispatch(forgotPassword(values));
     },
   });
+
+  useEffect(() => {
+    if (isSuccess2) {
+      router.push('/recover');
+    }
+  }, [isSuccess2, router]);
 
   const renderForm = (
     <>
@@ -82,42 +85,12 @@ export default function LoginView() {
         >
           {formik.touched.email && formik.errors.email}
         </div>
-
-        <TextField
-          name="password"
-          label="Password"
-          value={formik.values.password}
-          onChange={formik.handleChange('password')}
-          onBlur={formik.handleBlur('password')}
-          type={showPassword ? 'text' : 'password'}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-        <div
-          className="error mt-2"
-          style={{
-            color: 'red',
-            fontSize: '12px',
-            marginTop: '0px',
-          }}
-        >
-          {formik.touched.password && formik.errors.password}
-        </div>
       </Stack>
-
       <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link href="/forgot" variant="subtitle2" underline="hover">
-          Forgot password?
+        <Link variant="subtitle2" underline="hover">
+          {/* Forgot password? */}
         </Link>
       </Stack>
-
       <LoadingButton
         fullWidth
         size="large"
@@ -127,20 +100,10 @@ export default function LoginView() {
         onClick={formik.handleSubmit}
         // onSubmit={formik.handleSubmit}
       >
-        {isLoading ? 'signing you in' : 'Login'}
+        {isLoading ? 'sending...' : 'send'}
       </LoadingButton>
     </>
   );
-
-  //
-  useEffect(() => {
-    if (token) {
-      router.push('/');
-    } else {
-      router.push('/login');
-    }
-  }, [token, router]);
-  //
 
   return (
     <Box
@@ -174,7 +137,7 @@ export default function LoginView() {
             }}
             variant="h4"
           >
-            Sign in to Reviel
+            Forgot Password
           </Typography>
 
           {renderForm}

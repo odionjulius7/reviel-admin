@@ -36,6 +36,30 @@ export const changePassword = createAsyncThunk('auth/password', async (userData,
   }
 });
 
+export const forgotPassword = createAsyncThunk(
+  'auth/forgot-password',
+  async (userData, thunkAPI) => {
+    try {
+      return await authService.forgotPassword(userData);
+    } catch (error) {
+      toast.error('Failed, try again');
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
+export const recoverPassword = createAsyncThunk(
+  'auth/recover-password',
+  async (userData, thunkAPI) => {
+    try {
+      return await authService.recoverPassword(userData);
+    } catch (error) {
+      toast.error('Failed, try again');
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 // Create an async thunk for logout
 export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   // Clear the user data from state
@@ -90,6 +114,40 @@ export const authSlice = createSlice({
       .addCase(changePassword.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess2 = false;
+        state.message = action.error;
+        state.isLoading = false;
+      })
+      // forgot Password
+      .addCase(forgotPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(forgotPassword.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess2 = true;
+        state.forgotPasswordData = action.payload;
+        state.message = 'success';
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess2 = false;
+        state.message = action.error;
+        state.isLoading = false;
+      })
+      // Recover Password
+      .addCase(recoverPassword.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(recoverPassword.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess3 = true;
+        state.recoverPasswordData = action.payload;
+        state.message = 'success';
+      })
+      .addCase(recoverPassword.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess3 = false;
         state.message = action.error;
         state.isLoading = false;
       });

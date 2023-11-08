@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
@@ -14,9 +14,15 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { loanPayment } from 'src/_mock/loanPayment';
 
+import { useDispatch, useSelector } from 'react-redux';
+
+import { loanTransaction } from 'src/features/Loan/loanSlice';
+
+import moment from 'moment';
+
 import TableNoData from '../table-no-data';
 import TableEmptyRows from '../table-empty-rows';
-import UserTableToolbar from '../user-table-toolbar';
+// import UserTableToolbar from '../user-table-toolbar';
 import LoansTableRow from '../loan-table-row';
 import LoanTableHead from '../loan-table-head';
 
@@ -25,6 +31,42 @@ import { emptyRows, applyFilter, getComparator } from '../utils';
 // ----------------------------------------------------------------------
 
 export default function LoanRepaymentPage() {
+  const dispatch = useDispatch();
+  const loanState = useSelector((state) => state.loan);
+  const authState = useSelector((state) => state);
+  // console.log(loanState?.loanTransactionData);
+  const token = authState?.auth.user?.data?.token;
+
+  const loans1 = loanState?.loanTransactionData || [];
+
+  //
+  const rows = loans1?.map((loan, index) => {
+    // Create loan data for each item
+    const loanData = {
+      creditId: loan?.loan_id || 0,
+      lender: loan?.id?.lender_first_name ? loan?.id?.lender_first_name : 'not yet',
+      borrower: loan?.id?.borrower_first_name ? loan?.id?.borrower_first_name : 'not yet',
+      amount: new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+      }).format(loan?.amount),
+      repaymentDate: moment(loan?.createdAt).format('L'),
+      status: loan?.status,
+      message: '',
+    };
+    // You can also add the index if needed
+    loanData.index = index;
+
+    return loanData;
+  });
+  console.log(rows);
+
+  useEffect(() => {
+    // dispatch(resetState()); // at first render alway clear the state(like loading, success etc)
+    dispatch(loanTransaction(token));
+  }, [dispatch, token]);
+
+  //
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -35,7 +77,7 @@ export default function LoanRepaymentPage() {
 
   const [filterName, setFilterName] = useState('');
 
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleSort = (event, creditId) => {
     const isAsc = orderBy === creditId && order === 'asc';
@@ -44,15 +86,6 @@ export default function LoanRepaymentPage() {
       setOrderBy(creditId);
     }
   };
-
-  // const handleSelectAllClick = (event) => {
-  //   if (event.target.checked) {
-  //     const newSelecteds = users.map((n) => n.name);
-  //     setSelected(newSelecteds);
-  //     return;
-  //   }
-  //   setSelected([]);
-  // };
 
   // const handleClick = (event, name) => {
   //   const selectedIndex = selected.indexOf(name);
@@ -87,7 +120,7 @@ export default function LoanRepaymentPage() {
   };
 
   const dataFiltered = applyFilter({
-    inputData: loanPayment,
+    inputData: rows,
     comparator: getComparator(order, orderBy),
     filterName,
   });
@@ -96,16 +129,16 @@ export default function LoanRepaymentPage() {
 
   return (
     <Container>
-      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-        <Typography variant="h4">Loan Repayment</Typography>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5} mt={4}>
+        <Typography variant="h4">Loan Repayment History</Typography>
       </Stack>
 
       <Card>
-        <UserTableToolbar
+        {/* <UserTableToolbar
           numSelected={selected.length}
           filterName={filterName}
-          onFilterName={handleFilterByName}
-        />
+          // onFilterName={handleFilterByName}
+        /> */}
 
         <Scrollbar>
           <TableContainer sx={{ overflow: 'unset' }}>
@@ -122,7 +155,7 @@ export default function LoanRepaymentPage() {
                   { id: 'lender', label: 'Lender' },
                   { id: 'borrower', label: 'Borrower' },
                   { id: 'amount', label: 'Amount' },
-                  { id: 'repaymentDate', label: 'Repayment Date', align: 'center' },
+                  { id: 'repaymentDate', label: 'Repayment Date' },
                   { id: 'status', label: 'Status' },
                   { id: 'message', label: 'Message' },
                   { id: '' },

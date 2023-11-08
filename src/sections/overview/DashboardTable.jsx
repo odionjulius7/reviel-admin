@@ -4,15 +4,16 @@ import { useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { allLoanRecords, loanTransaction } from 'src/features/Loan/loanSlice';
+import moment from 'moment';
 
 const columns = [
   {
     field: 'id',
     headerName: 'Credit ID',
-    width: 90,
+    width: 100,
     renderCell: (params) => <a href={`/loan/${params.row.id}`}>{params.value}</a>,
   },
-  { field: 'lender', headerName: 'Lender', width: 160 },
+  { field: 'lender', headerName: 'Lender', width: 120 },
   { field: 'borrower', headerName: 'Borrower', width: 160 },
   {
     field: 'amount',
@@ -20,15 +21,6 @@ const columns = [
     // type: 'number',
     width: 130,
   },
-  //   {
-  //     field: 'fullName',
-  //     headerName: 'Full name',
-  //     description: 'This column has a value getter and is not sortable.',
-  //     sortable: false,
-  //     width: 160,
-  //     valueGetter: (params) => `${params.row.firstName || ''} ${params.row.lastName || ''}`,
-  //   },
-
   {
     field: 'repaymentDate',
     headerName: 'Repayment Date',
@@ -39,7 +31,7 @@ const columns = [
     field: 'status',
     headerName: 'Status',
     // type: 'number',
-    width: 130,
+    width: 140,
   },
   {
     field: 'message',
@@ -49,7 +41,7 @@ const columns = [
   },
 ];
 
-const rows = [
+const rows1 = [
   {
     id: 1432,
     lender: 'Mike',
@@ -65,14 +57,36 @@ export default function DashboardTable() {
   const dispatch = useDispatch();
   const loanState = useSelector((state) => state.loan);
   const authState = useSelector((state) => state);
-  // console.log(loanState);
+  console.log(loanState?.loanTransactionData);
   const token = authState?.auth.user?.data?.token;
-  // console.log(loanState?.loanTransactionData);
+
+  const loans1 = loanState?.loanTransactionData || [];
+
+  //
+  const rows = loans1?.map((loan, index) => {
+    // Create loan data for each item
+    const loanData = {
+      id: loan?.loan_id || 0,
+      lender: loan?.id?.lender_first_name ? loan?.id?.lender_first_name : 'not yet',
+      borrower: loan?.id?.borrower_first_name ? loan?.id?.borrower_first_name : 'not yet',
+      amount: new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+      }).format(loan?.amount),
+      repaymentDate: moment(loan?.createdAt).format('L'),
+      status: loan?.status,
+      message: '',
+    };
+    // You can also add the index if needed
+    loanData.index = index;
+
+    return loanData;
+  });
+  // console.log(rows1);
 
   useEffect(() => {
     // dispatch(resetState()); // at first render alway clear the state(like loading, success etc)
     dispatch(loanTransaction(token));
-    // dispatch(allLoanRecords(token));
   }, [dispatch, token]);
   return (
     <div

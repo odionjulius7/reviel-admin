@@ -150,11 +150,11 @@ export const usersSlice = createSlice({
       })
       // Sus. User
       .addCase(suspendAUser.pending, (state) => {
-        state.isLoading = true;
+        state.isLoading1 = true;
       })
       .addCase(suspendAUser.fulfilled, (state, action) => {
         state.isError = false;
-        state.isLoading = false;
+        state.isLoading1 = false;
         state.isSuccess1 = true;
         state.suspendData = action.payload;
         state.message = 'success';
@@ -163,15 +163,15 @@ export const usersSlice = createSlice({
         state.isError = true;
         state.isSuccess1 = false;
         state.message = action.error;
-        state.isLoading = false;
+        state.isLoading1 = false;
       })
       // Unsus. User
       .addCase(UnsuspendAUser.pending, (state) => {
-        state.isLoading = true;
+        state.isLoading1 = true;
       })
       .addCase(UnsuspendAUser.fulfilled, (state, action) => {
         state.isError = false;
-        state.isLoading = false;
+        state.isLoading1 = false;
         state.isSuccess = true;
         state.unsuspendData = action.payload;
         state.message = 'success';
@@ -180,7 +180,7 @@ export const usersSlice = createSlice({
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
-        state.isLoading = false;
+        state.isLoading1 = false;
       })
       .addCase(resetState, () => initialState);
   },

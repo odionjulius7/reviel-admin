@@ -30,17 +30,24 @@ import { getAUser, UnsuspendAUser, resetState, suspendAUser } from 'src/features
 
 import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
 
+import { getAUserloansMetrics } from 'src/features/Loan/loanSlice';
+
 import UserDetailTable from '../user-detail-table';
+import UserRecLoanTable from '../user-rec-loan';
+import LoanForAUserTable from '../loans-for-a-user-list';
 
 // ----------------------------------------------------------------------
 
 export default function UserDetailPage() {
   const dispatch = useDispatch();
   const userState = useSelector((state) => state.users);
+  const loanState = useSelector((state) => state.loan);
   const authState = useSelector((state) => state);
   const token = authState?.auth.user?.data?.token;
   const { id } = useParams();
   const { isSuccess1, isError, unsuspendData, suspendData } = userState;
+
+  // console.log(loanState?.userloansMetricsData);
 
   useEffect(() => {
     if (isSuccess1) {
@@ -57,6 +64,11 @@ export default function UserDetailPage() {
     dispatch(resetState());
     dispatch(getAUser(ids));
   }, [dispatch, token, id, unsuspendData, suspendData]);
+
+  useEffect(() => {
+    const ids = { token, id };
+    dispatch(getAUserloansMetrics(ids));
+  }, [dispatch, token, id]);
 
   const [value, setValue] = useState('1');
 
@@ -107,13 +119,90 @@ export default function UserDetailPage() {
                 // justifyContent="space-around"
                 mb={5}
                 mt={3}
-                gap={13}
+                gap={20}
               >
+                <UserDetailTable item={userState?.user} />
+                <Grid>
+                  <Grid sx={{ marginBottom: '1.2rem' }} xs={12} sm={6} md={4}>
+                    <AppWidgetSummary
+                      title="Number Of Loans"
+                      total={loanState?.userloansMetricsData?.loans || 0.001}
+                      color="success"
+                    />
+                  </Grid>
+                  <Grid sx={{ marginBottom: '1.2rem' }} xs={12} sm={6} md={3}>
+                    <AppWidgetSummary
+                      title="Number Of Loans Borrowed"
+                      total={loanState?.userloansMetricsData?.borrower || 0.001}
+                      color="success"
+                    />
+                  </Grid>
+                  <Grid xs={12} sm={6} md={3}>
+                    <AppWidgetSummary
+                      title="Number Of Loans Lent"
+                      total={loanState?.userloansMetricsData?.lender || 0.001}
+                      color="success"
+                    />
+                  </Grid>
+                </Grid>
+              </Stack>
+              <Grid
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginTop: '4rem',
+                }}
+              >
+                <Stack
+                  sx={{
+                    width: '60%',
+                    // margin: '1rem auto',
+                  }}
+                >
+                  <Stack
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                    }}
+                    mt={1}
+                    ml={1}
+                    gap={1}
+                  >
+                    <Typography>KYC Type :</Typography>
+                    <Typography> NIN</Typography>
+                  </Stack>
+                  <Stack
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                    }}
+                    mt={1}
+                    ml={1}
+                    gap={1}
+                    mb={1}
+                  >
+                    <Typography>KYC ID :</Typography>
+                    <Typography>13235</Typography>
+                  </Stack>
+                  <Stack
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                    }}
+                    ml={1}
+                    gap={1}
+                  >
+                    <Typography>Link :</Typography>
+                    <Typography>ywfgshshfbhgjsdthgrh</Typography>
+                  </Stack>
+                </Stack>
+                {/* sus */}
+
                 <Card
                   sx={{
                     background: '#ffffff',
-                    width: '30%x',
-                    height: 'auto',
+                    // width: '30%x',
+                    // height: 'auto',
                     padding: '3rem 2rem',
                   }}
                 >
@@ -126,7 +215,7 @@ export default function UserDetailPage() {
                         dispatch(UnsuspendAUser(ids));
                       }}
                     >
-                      {userState?.isLoading ? 'loading...' : 'Unsuspend User'}
+                      {userState?.isLoading1 ? 'loading...' : 'Unsuspend User'}
                     </Button>
                   ) : (
                     <Button
@@ -137,71 +226,20 @@ export default function UserDetailPage() {
                         dispatch(suspendAUser(ids));
                       }}
                     >
-                      {userState?.isLoading ? 'loading...' : 'Suspend User'}
+                      {userState?.isLoading1 ? 'loading...' : 'Suspend User'}
                     </Button>
                   )}
                 </Card>
-                <UserDetailTable item={userState?.user} />
-                <Grid>
-                  <Grid sx={{ marginBottom: '1.2rem' }} xs={12} sm={6} md={3}>
-                    <AppWidgetSummary title="Number Of Loans" total={10} color="success" />
-                  </Grid>
-                  <Grid sx={{ marginBottom: '1.2rem' }} xs={12} sm={6} md={3}>
-                    <AppWidgetSummary title="Number Of Loans Borrowed" total={4} color="success" />
-                  </Grid>
-                  <Grid xs={12} sm={6} md={3}>
-                    <AppWidgetSummary title="Number Of Loans Lent" total={6} color="success" />
-                  </Grid>
-                </Grid>
-              </Stack>
-              <Stack
-                sx={{
-                  width: '60%',
-                  margin: '1rem auto',
-                }}
-              >
-                <Stack
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                  }}
-                  mt={1}
-                  ml={1}
-                  gap={1}
-                >
-                  <Typography>KYC Type :</Typography>
-                  <Typography> NIN</Typography>
-                </Stack>
-                <Stack
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                  }}
-                  mt={1}
-                  ml={1}
-                  gap={1}
-                  mb={1}
-                >
-                  <Typography>KYC ID :</Typography>
-                  <Typography>13235</Typography>
-                </Stack>
-                <Stack
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                  }}
-                  ml={1}
-                  gap={1}
-                >
-                  <Typography>Link :</Typography>
-                  <Typography>ywfgshshfbhgjsdthgrh</Typography>
-                </Stack>
-              </Stack>
+              </Grid>
             </Grid>
             {/*  */}
           </TabPanel>
-          <TabPanel value="2">Item Two</TabPanel>
-          <TabPanel value="3">Item Three</TabPanel>
+          <TabPanel value="2">
+            <LoanForAUserTable />
+          </TabPanel>
+          <TabPanel value="3">
+            <UserRecLoanTable />
+          </TabPanel>
         </TabContext>
       </Box>
       {/* tab */}

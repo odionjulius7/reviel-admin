@@ -9,6 +9,12 @@ const allLoanRecords = async (token) => {
   const response = await axios.get(`${base_url}loan/all`, config);
   return response.data?.data;
 };
+const allUsersRecordedLoans = async (token) => {
+  const config = generateAxiosConfig(token);
+  // const response = await axios.get(`${base_url}loan/admin?deleted=false`, config);
+  const response = await axios.get(`${base_url}record/all`, config);
+  return response.data?.data;
+};
 
 const getApprovedloans = async (items) => {
   const config = generateAxiosConfig(items.token);
@@ -33,6 +39,12 @@ const getAUserloans = async (ids) => {
     `${base_url}loan/admin?status=false&deleted=false&userId=${ids.id}`,
     config
   );
+  return response?.data?.data;
+};
+//
+const getAUserloansMetrics = async (ids) => {
+  const config = generateAxiosConfig(ids.token);
+  const response = await axios.get(`${base_url}loan/user/metrics?id=${ids.id}`, config);
   return response?.data?.data;
 };
 
@@ -76,6 +88,8 @@ const loanService = {
   getAUserloans,
   getMonthlyloan,
   loanMetrics,
+  allUsersRecordedLoans,
+  getAUserloansMetrics,
 };
 
 export default loanService;

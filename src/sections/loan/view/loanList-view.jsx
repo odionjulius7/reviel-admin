@@ -127,7 +127,12 @@ export default function LoanListPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Total no. of loans"
-            total={133}
+            total={
+              (loan_metrics?.loans_active || 0) +
+              (loan_metrics?.loans_due || 0) +
+              (loan_metrics?.loans_pending || 0) +
+              (loan_metrics?.loans_completed || 0)
+            }
             color="info"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
             // icon={<span style={{ fontSize: '30px' }}>&#8358; </span>}
@@ -136,8 +141,8 @@ export default function LoanListPage() {
 
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
-            title="No. Of Bad Loans"
-            total={23}
+            title="No. Of Over Due Loans"
+            total={loan_metrics?.loans_due || 0.001}
             color="error"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
           />
@@ -147,7 +152,7 @@ export default function LoanListPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Amount Of Loans Initiated By Lender"
-            total={1000}
+            total={loan_metrics?.total_amount_initiated_lender || 0.001}
             color="warning"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
           />
@@ -155,7 +160,7 @@ export default function LoanListPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="No. Of Pending Loans"
-            total={900}
+            total={loan_metrics?.loans_pending || 0.001}
             color="success"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
@@ -163,7 +168,7 @@ export default function LoanListPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="No. Completed Loans"
-            total={900}
+            total={loan_metrics?.loans_completed || 0.001}
             color="success"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
@@ -171,7 +176,7 @@ export default function LoanListPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Amount Of Loans Initiated By Borrower"
-            total={900}
+            total={loan_metrics?.total_amount_initiated_borrower || 0.001}
             color="success"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
@@ -180,7 +185,7 @@ export default function LoanListPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="No. Of Active Loans"
-            total={loan_metrics?.loans_active}
+            total={loan_metrics?.loans_active || 0.001}
             color="info"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
@@ -188,7 +193,7 @@ export default function LoanListPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="No. Of Loans Initiated By Lender"
-            total={93}
+            total={loan_metrics?.lender_initiated || 0.001}
             color="info"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />
@@ -196,7 +201,7 @@ export default function LoanListPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="No. Of Loans Initiated By Borrower"
-            total={93}
+            total={loan_metrics?.borrower_initiated || 0.001}
             color="info"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />

@@ -23,20 +23,21 @@ import { useFormik } from 'formik';
 import Logo from 'src/components/logo';
 import Iconify from 'src/components/iconify';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from 'src/features/auth/authSlice';
+import { recoverPassword } from 'src/features/auth/authSlice';
 
 // ----------------------------------------------------------------------
 // Yup validation setting, yup doc
 const schema = yup.object().shape({
   email: yup.string().email('Email should be valid').required('Email is Required'),
+  email_code: yup.string().required('Email Code is Required'),
   password: yup.string().required('Password is Required'),
+  confirm_password: yup.string().required('Confirm Password is Required'),
 });
-export default function LoginView() {
+export default function RecoverPawssordView() {
   const dispatch = useDispatch();
   const authState = useSelector((state) => state);
 
-  const { user, isError, isSuccess, isLoading, message } = authState.auth;
-  const token = user?.data?.token;
+  const { isSuccess3, isLoading } = authState.auth;
 
   const theme = useTheme();
 
@@ -54,11 +55,13 @@ export default function LoginView() {
     initialValues: {
       email: '',
       password: '',
+      confirm_password: '',
+      email_code: '',
     },
     validationSchema: schema, // to validate the yup setup schema
     onSubmit: (values) => {
       // pass the value of the data got from formik to the login action
-      dispatch(login(values));
+      dispatch(recoverPassword(values));
     },
   });
 
@@ -110,12 +113,55 @@ export default function LoginView() {
         >
           {formik.touched.password && formik.errors.password}
         </div>
+        <TextField
+          name="confirm_password"
+          label="Confirm Password"
+          value={formik.values.confirm_password}
+          onChange={formik.handleChange('confirm_password')}
+          onBlur={formik.handleBlur('confirm_password')}
+          type={showPassword ? 'text' : 'password'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <div
+          className="error mt-2"
+          style={{
+            color: 'red',
+            fontSize: '12px',
+            marginTop: '0px',
+          }}
+        >
+          {formik.touched.confirm_password && formik.errors.confirm_password}
+        </div>
+        <TextField
+          name="email_code"
+          label="Email COde"
+          value={formik.values.email_code}
+          onChange={formik.handleChange('email_code')}
+          onBlur={formik.handleBlur('email_code')}
+          type="text"
+        />
+        <div
+          className="error mt-2"
+          style={{
+            color: 'red',
+            fontSize: '12px',
+            marginTop: '0px',
+          }}
+        >
+          {formik.touched.email_code && formik.errors.email_code}
+        </div>
       </Stack>
 
-      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 3 }}>
-        <Link href="/forgot" variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
+      <Stack direction="row" alignItems="center" justifyContent="flex-end" sx={{ my: 6 }}>
+        <Link variant="info">An Email with the recovery code has been sent to you.</Link>
       </Stack>
 
       <LoadingButton
@@ -127,20 +173,16 @@ export default function LoginView() {
         onClick={formik.handleSubmit}
         // onSubmit={formik.handleSubmit}
       >
-        {isLoading ? 'signing you in' : 'Login'}
+        {isLoading ? ' submitting... ' : 'submit'}
       </LoadingButton>
     </>
   );
 
-  //
   useEffect(() => {
-    if (token) {
-      router.push('/');
-    } else {
-      router.push('/login');
+    if (isSuccess3) {
+      router.push('/recover');
     }
-  }, [token, router]);
-  //
+  }, [isSuccess3, router]);
 
   return (
     <Box
@@ -174,7 +216,7 @@ export default function LoginView() {
             }}
             variant="h4"
           >
-            Sign in to Reviel
+            Recover Password
           </Typography>
 
           {renderForm}

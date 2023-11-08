@@ -23,6 +23,19 @@ const changePassword = async (user) => {
 
   return response.data;
 };
+const forgotPassword = async (user) => {
+  const { token, email } = user;
+  // const config = generateAxiosConfig(token);
+  const response = await axios.post(`${base_url}user/forgot/pin`, { email });
+
+  return response.data;
+};
+//
+const recoverPassword = async (user) => {
+  const response = await axios.post(`${base_url}user/reset`, user);
+  console.log(response);
+  return response.data;
+};
 
 const getUsers = async (token) => {
   const config = generateAxiosConfig(token);
@@ -32,6 +45,8 @@ const getUsers = async (token) => {
 };
 
 const authService = {
+  forgotPassword,
+  recoverPassword,
   login,
   getUsers,
   changePassword,

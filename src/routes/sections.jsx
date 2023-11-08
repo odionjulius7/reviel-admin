@@ -12,6 +12,8 @@ export const LoanListPage = lazy(() => import('src/pages/loans'));
 export const LoanRepaymentPage = lazy(() => import('src/pages/LoanRepayment'));
 export const CreditTipPage = lazy(() => import('src/pages/credit-tip'));
 export const AccountPage = lazy(() => import('src/pages/account'));
+export const ForgotPasswordPage = lazy(() => import('src/pages/forgot-password'));
+export const RecoverPasswordPage = lazy(() => import('src/pages/recover-password'));
 export const LoanDetailsPage = lazy(() => import('src/pages/loan-details'));
 export const UserDetailPage = lazy(() => import('src/pages/userDetail'));
 export const UserRecordedLoanPage = lazy(() => import('src/pages/user-rec-loans'));
@@ -123,6 +125,14 @@ export default function Router() {
     {
       path: 'login',
       element: <LoginPage />,
+    },
+    {
+      path: 'forgot',
+      element: <ForgotPasswordPage />,
+    },
+    {
+      path: 'recover',
+      element: <RecoverPasswordPage />,
     },
     {
       path: '404',

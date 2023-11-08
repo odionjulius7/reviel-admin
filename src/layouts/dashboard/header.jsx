@@ -35,7 +35,7 @@ export default function Header({ onOpenNav }) {
         </IconButton>
       )}
 
-      <Searchbar />
+      {/* <Searchbar /> */}
 
       <Box sx={{ flexGrow: 1 }} />
 
@@ -69,6 +69,7 @@ export default function Header({ onOpenNav }) {
         sx={{
           height: 1,
           px: { lg: 5 },
+          borderBottom: 'dashed 1px rgba(145, 158, 171, 0.2)',
         }}
       >
         {renderContent}
