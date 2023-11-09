@@ -26,7 +26,7 @@ const changePassword = async (user) => {
 const forgotPassword = async (user) => {
   const { token, email } = user;
   // const config = generateAxiosConfig(token);
-  const response = await axios.post(`${base_url}user/forgot/pin`, { email });
+  const response = await axios.post(`${base_url}user/forgot`, { email });
 
   return response.data;
 };

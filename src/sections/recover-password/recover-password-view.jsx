@@ -62,6 +62,7 @@ export default function RecoverPawssordView() {
     onSubmit: (values) => {
       // pass the value of the data got from formik to the login action
       dispatch(recoverPassword(values));
+      // console.log(values);
     },
   });
 
@@ -178,9 +179,11 @@ export default function RecoverPawssordView() {
     </>
   );
 
+  console.log(isSuccess3);
+
   useEffect(() => {
     if (isSuccess3) {
-      router.push('/recover');
+      router.push('/login');
     }
   }, [isSuccess3, router]);
 

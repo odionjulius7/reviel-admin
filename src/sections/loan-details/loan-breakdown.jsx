@@ -3,6 +3,8 @@ import * as React from 'react';
 import { Button } from '@mui/material';
 
 import { DataGrid } from '@mui/x-data-grid';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
 
 const columns = [
   {
@@ -27,7 +29,7 @@ const columns = [
   // },
 ];
 
-const rows = [
+const rows1 = [
   {
     id: 1,
     amount: '50,000',
@@ -35,49 +37,36 @@ const rows = [
     status: 'active',
     message: 'acMM jhsd yhewgsdy tive',
   },
-  {
-    id: 2,
-    amount: '50,000',
-    date: '23/10/2023',
-    status: 'active',
-    message: '',
-  },
-  {
-    id: 3,
-    amount: '50,000',
-    date: '23/10/2023',
-    status: 'active',
-    message: 'acMM jhsd yhewgsdy tive',
-  },
-  {
-    id: 4,
-    amount: '50,000',
-    date: '23/10/2023',
-    status: 'active',
-    message: '',
-  },
-  {
-    id: 5,
-    amount: '50,000',
-    date: '23/10/2023',
-    status: 'active',
-    message: '',
-  },
-  {
-    id: 6,
-    amount: '50,000',
-    date: '23/10/2023',
-    status: 'active',
-    message: '',
-  },
 ];
 
-function handleDelete(id) {
-  // Add your delete logic here, e.g., make an API call to delete the item
-  console.log(`Deleting item with ID: ${id}`);
-}
-
 export default function LoanBreakDownTable() {
+  const loanState = useSelector((state) => state.loan);
+
+  const loanObj = loanState?.loan?.installment || [];
+
+  const rows = loanObj?.map((loan, index) => {
+    // Create loan data for each item
+    const loanData = {
+      // id: loan?.id || 0,
+      id: index + 1,
+      amount: new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+      }).format(loan?.amount_paid),
+      date: moment(loan?.installment_date).format('L'),
+      status: loan?.status ? 'paid' : 'active',
+      message: loan?.message ? loan?.message : '',
+    };
+
+    // You can also add the index if needed
+    loanData.index = index;
+
+    return loanData;
+  });
+
+  // console.log(loansData);
+
+  // console.log(loanObj);
   return (
     <div
       style={{

@@ -67,8 +67,8 @@ export default function DashboardTable() {
     // Create loan data for each item
     const loanData = {
       id: loan?.loan_id || 0,
-      lender: loan?.id?.lender_first_name ? loan?.id?.lender_first_name : 'not yet',
-      borrower: loan?.id?.borrower_first_name ? loan?.id?.borrower_first_name : 'not yet',
+      lender: loan?.lender?.first_name,
+      borrower: loan?.borrower?.first_name,
       amount: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',

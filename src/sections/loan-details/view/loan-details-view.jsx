@@ -31,7 +31,6 @@ export default function LoanDetailsPage() {
   const loanState = useSelector((state) => state.loan);
   const authState = useSelector((state) => state);
   const token = authState?.auth.user?.data?.token;
-  // console.log(loanState?.loan);
 
   useEffect(() => {
     const ids = { token, id };

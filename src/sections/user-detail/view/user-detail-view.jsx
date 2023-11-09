@@ -60,13 +60,13 @@ export default function UserDetailPage() {
   }, [isSuccess1, isError, suspendData]);
 
   useEffect(() => {
-    const ids = { token, id };
+    const ids = { id, token };
     dispatch(resetState());
     dispatch(getAUser(ids));
   }, [dispatch, token, id, unsuspendData, suspendData]);
 
   useEffect(() => {
-    const ids = { token, id };
+    const ids = { id, token };
     dispatch(getAUserloansMetrics(ids));
   }, [dispatch, token, id]);
 

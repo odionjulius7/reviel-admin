@@ -49,7 +49,7 @@ export const forgotPassword = createAsyncThunk(
 );
 
 export const recoverPassword = createAsyncThunk(
-  'auth/recover-password',
+  'user/recover-password',
   async (userData, thunkAPI) => {
     try {
       return await authService.recoverPassword(userData);

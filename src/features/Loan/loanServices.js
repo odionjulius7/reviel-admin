@@ -28,7 +28,7 @@ const getApprovedloans = async (items) => {
 
 const getAloan = async (ids) => {
   const config = generateAxiosConfig(ids.token);
-  const response = await axios.get(`${base_url}loan/${ids.id}`, config);
+  const response = await axios.get(`${base_url}loan/admin/${ids.id}`, config);
   // console.log(response);
   return response.data?.data;
 };

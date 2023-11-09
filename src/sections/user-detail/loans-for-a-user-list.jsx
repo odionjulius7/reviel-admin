@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 const columns = [
   {
@@ -51,7 +52,7 @@ const columns = [
   },
 ];
 
-const rows = [
+const rows1 = [
   {
     id: 1432,
     lender: 'Mike',
@@ -66,18 +67,41 @@ const rows = [
 ];
 
 export default function LoanForAUserTable() {
-  const dispatch = useDispatch();
   const loanState = useSelector((state) => state.loan);
-  const authState = useSelector((state) => state);
   // console.log(loanState);
-  const token = authState?.auth.user?.data?.token;
-  // console.log(loanState?.loanTransactionData);
+  console.log(loanState?.userloansMetricsData);
+  const loanObj = loanState?.userloansMetricsData?.loan_list || [];
 
-  useEffect(() => {
-    // dispatch(resetState()); // at first render alway clear the state(like loading, success etc)
-    // dispatch(loanTransaction(token));
-    // dispatch(allLoanRecords(token));
-  }, [dispatch, token]);
+  const rows = loanObj?.map((loan, index) => {
+    const loanData = {
+      id: loan?.id || 0,
+      lender: loan?.lender_first_name,
+      borrower: loan?.borrower_first_name,
+      loanAmount: new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+      }).format(loan?.amount),
+      expectedReturn: new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+      }).format(loan?.expected_return),
+      balance: new Intl.NumberFormat('en-NG', {
+        style: 'currency',
+        currency: 'NGN',
+      }).format((loan?.expected_return ?? 0) - (loan?.amount_paid ?? 0)),
+      initiationDate: moment(loan?.createdAt).format('L'),
+      dueDate: moment(loan?.due_date).format('L'),
+      status: loan?.status ? 'paid' : 'not paid',
+    };
+
+    // You can also add the index if needed
+    loanData.index = index;
+
+    return loanData;
+  });
+
+  // console.log(loansData);
+
   return (
     <div
       style={{
@@ -95,10 +119,10 @@ export default function LoanForAUserTable() {
         columns={columns}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 7 },
           },
         }}
-        pageSizeOptions={[5, 10]}
+        pageSizeOptions={[7, 15]}
         // checkboxSelection
       />
     </div>

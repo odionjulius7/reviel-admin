@@ -48,7 +48,7 @@ export default function UserPage() {
       status: user?.kyc_verification_status ? 'verified' : 'unverified',
       email: user?.email,
       dateRegistered: user?.createdAt,
-      dateVerified: '??',
+      dateVerified: user?.verification_date,
     };
 
     // You can also add the index if needed

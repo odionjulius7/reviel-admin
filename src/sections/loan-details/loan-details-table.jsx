@@ -13,13 +13,13 @@ const columns = [
     width: 90,
     renderCell: (params) => <a href={`/loan/${params.row.id}`}>{params.value}</a>,
   },
-  { field: 'lender', headerName: 'Lender', width: 150 },
-  { field: 'borrower', headerName: 'Borrower', width: 150 },
+  { field: 'lender', headerName: 'Lender', width: 130 },
+  { field: 'borrower', headerName: 'Borrower', width: 130 },
   { field: 'loanAmount', headerName: 'Loan Amount', width: 130 },
   { field: 'expectedReturn', headerName: 'Expected Return', width: 130 },
   { field: 'balance', headerName: 'Balance', width: 130 },
   { field: 'initiationDate', headerName: 'Initiation Date', width: 120 },
-  { field: 'dueDate', headerName: 'Due Date', width: 100 },
+  { field: 'dueDate', headerName: 'Due Date', width: 120 },
   { field: 'status', headerName: 'Status', width: 90 },
   // {
   //   field: 'action',
@@ -83,10 +83,10 @@ export default function LoanDetailsTable() {
 
   // console.log(loansData);
 
-  function handleDelete(id) {
-    // Add your delete logic here, e.g., make an API call to delete the item
-    console.log(`Deleting item with ID: ${id}`);
-  }
+  // function handleDelete(id) {
+  //   // Add your delete logic here, e.g., make an API call to delete the item
+  //   console.log(`Deleting item with ID: ${id}`);
+  // }
 
   return (
     <div
