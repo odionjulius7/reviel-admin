@@ -15,7 +15,7 @@ const columns = [
   { field: 'lender', headerName: 'Lender', width: 130 },
   { field: 'borrower', headerName: 'Borrower', width: 130 },
   {
-    field: 'amount',
+    field: 'loanAmount',
     headerName: 'Loan Amount',
     // type: 'number',
     width: 130,
@@ -68,9 +68,13 @@ const rows1 = [
 
 export default function LoanForAUserTable() {
   const loanState = useSelector((state) => state.loan);
-  // console.log(loanState);
-  console.log(loanState?.userloansMetricsData);
+  console.log(loanState?.userloansMetricsData?.loan_list);
   const loanObj = loanState?.userloansMetricsData?.loan_list || [];
+
+  function convertKoboToNaira(koboAmount) {
+    const nairaAmount = koboAmount / 100; // 100 kobo equals 1 naira
+    return nairaAmount;
+  }
 
   const rows = loanObj?.map((loan, index) => {
     const loanData = {
@@ -80,15 +84,18 @@ export default function LoanForAUserTable() {
       loanAmount: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
-      }).format(loan?.amount),
+      }).format(convertKoboToNaira(loan?.amount)),
       expectedReturn: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
-      }).format(loan?.expected_return),
+      }).format(convertKoboToNaira(loan?.expected_return)),
       balance: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
-      }).format((loan?.expected_return ?? 0) - (loan?.amount_paid ?? 0)),
+      }).format(
+        (convertKoboToNaira(loan?.expected_return) ?? 0) -
+          (convertKoboToNaira(loan?.amount_paid) ?? 0)
+      ),
       initiationDate: moment(loan?.createdAt).format('L'),
       dueDate: moment(loan?.due_date).format('L'),
       status: loan?.status ? 'paid' : 'not paid',

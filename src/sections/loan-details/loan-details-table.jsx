@@ -52,6 +52,10 @@ export default function LoanDetailsTable() {
 
   const loanObj = [loanState?.loan];
 
+  function convertKoboToNaira(koboAmount) {
+    const nairaAmount = koboAmount / 100; // 100 kobo equals 1 naira
+    return nairaAmount;
+  }
   const loansData = loanObj?.map((loan, index) => {
     // Create loan data for each item
     const loanData = {
@@ -61,15 +65,18 @@ export default function LoanDetailsTable() {
       loanAmount: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
-      }).format(loan?.amount),
+      }).format(convertKoboToNaira(loan?.amount)),
       expectedReturn: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
-      }).format(loan?.expected_return),
+      }).format(convertKoboToNaira(loan?.expected_return)),
       balance: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
-      }).format((loan?.expected_return ?? 0) - (loan?.amount_paid ?? 0)),
+      }).format(
+        (convertKoboToNaira(loan?.expected_return) ?? 0) -
+          (convertKoboToNaira(loan?.amount_paid) ?? 0)
+      ),
       initiationDate: moment(loan?.createdAt).format('L'),
       dueDate: moment(loan?.due_date).format('L'),
       status: loan?.status ? 'paid' : 'not paid',

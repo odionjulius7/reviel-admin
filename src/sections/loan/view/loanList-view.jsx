@@ -39,6 +39,10 @@ export default function LoanListPage() {
   const token = authState?.auth.user?.data?.token;
   const loan_metrics = loanState?.loanMetrics;
   // console.log(loan_metrics);
+  function convertKoboToNaira(koboAmount) {
+    const nairaAmount = koboAmount / 100; // 100 kobo equals 1 naira
+    return nairaAmount;
+  }
 
   // Table Loans
   const loans = loanState?.loans?.map((loan, index) => {
@@ -47,9 +51,11 @@ export default function LoanListPage() {
       creditId: loan.id,
       lender: loan.lender_first_name,
       borrower: loan.borrower_first_name,
-      loanAmount: loan.amount,
-      expectedReturn: loan.expected_return,
-      balance: (loan.expected_return ?? 0) - (loan?.amount_paid ?? 0),
+      loanAmount: convertKoboToNaira(loan.amount),
+      expectedReturn: convertKoboToNaira(loan.expected_return),
+      balance:
+        (convertKoboToNaira(loan.expected_return) ?? 0) -
+        (convertKoboToNaira(loan?.amount_paid) ?? 0),
       initiationDate: loan.createdAt,
       dueDate: loan.due_date,
       status: loan.status ? 'completed' : 'pending',
@@ -152,7 +158,7 @@ export default function LoanListPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Amount Of Loans Initiated By Lender"
-            total={loan_metrics?.total_amount_initiated_lender || 0.001}
+            total={convertKoboToNaira(loan_metrics?.total_amount_initiated_lender) || 0.001}
             color="warning"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
           />
@@ -176,7 +182,7 @@ export default function LoanListPage() {
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
             title="Amount Of Loans Initiated By Borrower"
-            total={loan_metrics?.total_amount_initiated_borrower || 0.001}
+            total={convertKoboToNaira(loan_metrics?.total_amount_initiated_borrower) || 0.001}
             color="success"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
           />

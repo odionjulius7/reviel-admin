@@ -61,7 +61,10 @@ export default function DashboardTable() {
   const token = authState?.auth.user?.data?.token;
 
   const loans1 = loanState?.loanTransactionData || [];
-
+  function convertKoboToNaira(koboAmount) {
+    const nairaAmount = koboAmount / 100; // 100 kobo equals 1 naira
+    return nairaAmount;
+  }
   //
   const rows = loans1?.map((loan, index) => {
     // Create loan data for each item
@@ -72,7 +75,7 @@ export default function DashboardTable() {
       amount: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
-      }).format(loan?.amount),
+      }).format(convertKoboToNaira(loan?.amount)),
       repaymentDate: moment(loan?.createdAt).format('L'),
       status: loan?.status,
       message: '',

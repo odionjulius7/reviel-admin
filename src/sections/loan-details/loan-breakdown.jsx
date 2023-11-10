@@ -44,6 +44,11 @@ export default function LoanBreakDownTable() {
 
   const loanObj = loanState?.loan?.installment || [];
 
+  function convertKoboToNaira(koboAmount) {
+    const nairaAmount = koboAmount / 100; // 100 kobo equals 1 naira
+    return nairaAmount;
+  }
+
   const rows = loanObj?.map((loan, index) => {
     // Create loan data for each item
     const loanData = {
@@ -52,7 +57,7 @@ export default function LoanBreakDownTable() {
       amount: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
-      }).format(loan?.amount_paid),
+      }).format(convertKoboToNaira(loan?.amount_paid)),
       date: moment(loan?.installment_date).format('L'),
       status: loan?.status ? 'paid' : 'active',
       message: loan?.message ? loan?.message : '',
@@ -84,10 +89,10 @@ export default function LoanBreakDownTable() {
         columns={columns}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 10 },
+            paginationModel: { page: 0, pageSize: 7 },
           },
         }}
-        pageSizeOptions={[10, 20]}
+        pageSizeOptions={[7, 15]}
       />
     </div>
   );

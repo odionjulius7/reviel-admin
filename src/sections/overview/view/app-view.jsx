@@ -43,6 +43,10 @@ export default function AppView() {
     dispatch(getUserMetrics(token));
   }, [dispatch, token]);
   //
+  function convertKoboToNaira(koboAmount) {
+    const nairaAmount = koboAmount / 100; // 100 kobo equals 1 naira
+    return nairaAmount;
+  }
   return (
     <Container maxWidth="xl">
       <Typography variant="h4" sx={{ mb: 5 }}>
@@ -82,7 +86,7 @@ export default function AppView() {
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
             title="Total amount of loans initated"
-            total={loan_metrics?.total_amount || 0.001}
+            total={convertKoboToNaira(loan_metrics?.total_amount) || 0.001}
             color="info"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
             // icon={<span style={{ fontSize: '30px' }}>&#8358; </span>}
