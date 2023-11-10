@@ -78,6 +78,13 @@ const loanTransaction = async (token) => {
   return response.data?.data;
 };
 //
+// Search Loans
+const searchLoansByName = async (nums) => {
+  const config = generateAxiosConfig(nums.token);
+  const response = await axios.get(`${base_url}loan/all?credit_id=${nums.creditid}`, config);
+  // console.log(config);
+  return response.data?.data;
+};
 
 const loanService = {
   loanTransaction,
@@ -90,6 +97,7 @@ const loanService = {
   loanMetrics,
   allUsersRecordedLoans,
   getAUserloansMetrics,
+  searchLoansByName,
 };
 
 export default loanService;

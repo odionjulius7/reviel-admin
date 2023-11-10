@@ -14,10 +14,7 @@ const getUsers = async (token) => {
 // Search Users
 const searchUserByName = async (nums) => {
   const config = generateAxiosConfig(nums.token);
-  const response = await axios.get(
-    `${base_url}user/all?username=${nums.username}&role=user`,
-    config
-  );
+  const response = await axios.get(`${base_url}user/all?first_name=${nums.name}`, config);
   // console.log(config);
   return response.data;
 };

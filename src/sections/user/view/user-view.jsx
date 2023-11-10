@@ -17,7 +17,7 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getUsers, getUserMetrics } from 'src/features/Users/usersSlice';
+import { getUsers, getUserMetrics, searchUserByName } from 'src/features/Users/usersSlice';
 
 import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
 
@@ -57,8 +57,7 @@ export default function UserPage() {
     return userData;
   });
   //
-  // console.log(usersData || []);
-  //
+
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -144,14 +143,40 @@ export default function UserPage() {
     dispatch(getUserMetrics(token));
   }, [dispatch, token]);
   //
+
+  const [name, setName] = useState('');
+  //
+  useEffect(() => {
+    let timer;
+    // Define a delay (e.g., 2000 milliseconds = 2 seconds)
+    const delay = 2000;
+    // Check if the 'name' has a value and it's not empty
+    if (name.trim() !== '') {
+      // Clear the existing timer, if any
+      clearTimeout(timer);
+      // Start a new timer to fetch data after the delay
+      timer = setTimeout(() => {
+        // Dispatch the action to fetch data using the 'name'
+        const nums = { name, token };
+        dispatch(searchUserByName(nums));
+      }, delay);
+    }
+
+    // Clean up the timer if the component unmounts or 'name' changes
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [name, dispatch, token]);
+
+  const handleUsernameChange = (e) => {
+    setName(e.target.value); // Update the username state with the input value
+    console.log(e.target.value);
+  };
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
         <Typography variant="h4">Users</Typography>
-
-        {/* <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:plus-fill" />}>
-          New User
-        </Button> */}
       </Stack>
 
       <Grid
@@ -190,8 +215,8 @@ export default function UserPage() {
       <Card>
         <UserTableToolbar
           numSelected={selected.length}
-          filterName={filterName}
-          onFilterName={handleFilterByName}
+          filterName={name}
+          onFilterName={handleUsernameChange}
         />
 
         <Scrollbar>
@@ -202,8 +227,8 @@ export default function UserPage() {
                 orderBy={orderBy}
                 rowCount={users?.length}
                 numSelected={selected.length}
-                onRequestSort={handleSort}
-                onSelectAllClick={handleSelectAllClick}
+                // onRequestSort={handleSort}
+                // onSelectAllClick={handleSelectAllClick}
                 headLabel={[
                   { id: 'id', label: 'User ID', align: 'center' },
                   { id: 'firstName', label: 'First Name' },

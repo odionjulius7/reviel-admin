@@ -44,7 +44,6 @@ export default function UserTableToolbar({ numSelected, filterName, onFilterName
           }
         />
       )}
-
       {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>

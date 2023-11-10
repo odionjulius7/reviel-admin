@@ -17,7 +17,7 @@ import Scrollbar from 'src/components/scrollbar';
 
 import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
 
-import { getloanMetric, allLoanRecords } from 'src/features/Loan/loanSlice';
+import { getloanMetric, allLoanRecords, searchLoansByName } from 'src/features/Loan/loanSlice';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -44,8 +44,11 @@ export default function LoanListPage() {
     return nairaAmount;
   }
 
+  const lones = loanState?.loans || [];
+  // console.log(loanState);
+
   // Table Loans
-  const loans = loanState?.loans?.map((loan, index) => {
+  const loans = lones?.map((loan, index) => {
     // Create loan data for each item
     const loanData = {
       creditId: loan.id,
@@ -117,6 +120,35 @@ export default function LoanListPage() {
     dispatch(allLoanRecords(token));
   }, [dispatch, token]);
   //
+
+  const [creditid, setCreditid] = useState('');
+  //
+  useEffect(() => {
+    let timer;
+    // Define a delay (e.g., 2000 milliseconds = 2 seconds)
+    const delay = 2000;
+    // Check if the 'name' has a value and it's not empty
+    if (creditid.trim() !== '') {
+      // Clear the existing timer, if any
+      clearTimeout(timer);
+      // Start a new timer to fetch data after the delay
+      timer = setTimeout(() => {
+        // Dispatch the action to fetch data using the 'name'
+        const nums = { creditid, token };
+        dispatch(searchLoansByName(nums));
+      }, delay);
+    }
+
+    // Clean up the timer if the component unmounts or 'name' changes
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [creditid, dispatch, token]);
+
+  const handleUsernameChange = (e) => {
+    setCreditid(e.target.value); // Update the username state with the input value
+    console.log(e.target.value);
+  };
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -217,8 +249,8 @@ export default function LoanListPage() {
       <Card>
         <UserTableToolbar
           // numSelected={selected.length}
-          filterName={filterName}
-          onFilterName={handleFilterByName}
+          filterName={creditid}
+          onFilterName={handleUsernameChange}
         />
 
         <Scrollbar>

@@ -99,6 +99,15 @@ export const getAUserloansMetrics = createAsyncThunk(
   }
 );
 //
+// user loan metrics,
+export const searchLoansByName = createAsyncThunk('loan/search-loan', async (nums, thunkAPI) => {
+  try {
+    return await loanService.searchLoansByName(nums);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+  }
+});
+//
 
 // Table   Loan Transaction,
 export const loanTransaction = createAsyncThunk(
@@ -132,6 +141,23 @@ export const loanSlice = createSlice({
         state.message = 'success';
       })
       .addCase(allLoanRecords.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        state.isLoading = false;
+      })
+      // search loans
+      .addCase(searchLoansByName.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(searchLoansByName.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.loans = action.payload;
+        state.message = 'success';
+      })
+      .addCase(searchLoansByName.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;
