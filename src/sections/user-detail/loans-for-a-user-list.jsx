@@ -98,7 +98,7 @@ export default function LoanForAUserTable() {
       ),
       initiationDate: moment(loan?.createdAt).format('L'),
       dueDate: moment(loan?.due_date).format('L'),
-      status: loan?.status ? 'paid' : 'not paid',
+      status: loan?.status ? 'paid' : 'active',
     };
 
     // You can also add the index if needed

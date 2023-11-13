@@ -143,7 +143,7 @@ export default function UserDetailTable({ item }) {
               variant="body"
               color="text.primary"
             >
-              ??
+              {moment(item?.verification_date).format('L')}
             </Typography>
           }
         />
@@ -160,5 +160,6 @@ UserDetailTable.propTypes = {
     phone: PropTypes.any,
     last_name: PropTypes.any,
     first_name: PropTypes.any,
+    verification_date: PropTypes.any,
   }).isRequired,
 };
