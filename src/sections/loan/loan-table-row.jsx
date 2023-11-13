@@ -79,7 +79,7 @@ export default function LoansTableRow({
           <Label
             color={
               (status === 'bad' && 'error') ||
-              (status === 'pending' && 'warning') ||
+              (status === 'active' && 'warning') ||
               (status === 'inactive' && 'warning') ||
               'success'
             }

@@ -61,7 +61,7 @@ export default function LoanListPage() {
         (convertKoboToNaira(loan?.amount_paid) ?? 0),
       initiationDate: loan.createdAt,
       dueDate: loan.due_date,
-      status: loan.status ? 'completed' : 'pending',
+      status: loan.status ? 'completed' : 'active',
     };
 
     // You can also add the index if needed
