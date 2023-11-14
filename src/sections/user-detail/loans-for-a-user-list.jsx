@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { Button } from '@mui/material';
 
 const columns = [
   {
@@ -49,6 +50,15 @@ const columns = [
     headerName: 'Status',
     // type: 'number',
     width: 90,
+    renderCell: (params) => (
+      <Button
+        variant="contained"
+        color={(params.value === 'active' && 'error') || 'success'}
+        style={{ padding: '0 0.6rem' }}
+      >
+        {params.value}
+      </Button>
+    ),
   },
 ];
 
@@ -98,7 +108,7 @@ export default function LoanForAUserTable() {
       ),
       initiationDate: moment(loan?.createdAt).format('L'),
       dueDate: moment(loan?.due_date).format('L'),
-      status: loan?.status ? 'paid' : 'active',
+      status: loan?.status ? 'completed' : 'active',
     };
 
     // You can also add the index if needed

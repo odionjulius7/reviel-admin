@@ -56,7 +56,10 @@ export default function UserRecordedLoanTable() {
   console.log(loanState?.userRecordedLoans);
 
   const loans1 = loanState?.userRecordedLoans || [];
-
+  function convertKoboToNaira(koboAmount) {
+    const nairaAmount = koboAmount / 100; // 100 kobo equals 1 naira
+    return nairaAmount;
+  }
   //
   const rows = loans1?.map((loan, index) => {
     // Create loan data for each item
@@ -74,11 +77,11 @@ export default function UserRecordedLoanTable() {
       loanAmount: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
-      }).format(loan?.loan_amount),
+      }).format(convertKoboToNaira(loan?.loan_amount)),
       loanInterest: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
-      }).format(loan?.loan_interest),
+      }).format(convertKoboToNaira(loan?.loan_interest)),
       repaymentSchedule: loan?.repayment_schedule,
       wasLoanFullyRepaid: '',
     };

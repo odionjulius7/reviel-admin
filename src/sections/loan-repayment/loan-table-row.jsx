@@ -53,7 +53,8 @@ export default function LoansTableRow({
           <Label
             color={
               (status === 'contested' && 'error') ||
-              (status === 'pending' && 'warning') ||
+              (status === 'rejected' && 'error') ||
+              (status === 'awaiting_approval' && 'warning') ||
               'success'
             }
           >

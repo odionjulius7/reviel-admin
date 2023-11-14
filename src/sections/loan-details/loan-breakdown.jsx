@@ -15,8 +15,30 @@ const columns = [
   },
   { field: 'amount', headerName: 'Amount', width: 130 },
   { field: 'date', headerName: 'Date', width: 130 },
-  { field: 'status', headerName: 'Status', width: 90 },
-  { field: 'message', headerName: 'Message', width: 190 },
+  {
+    field: 'status',
+    headerName: 'Status',
+    width: 120,
+    renderCell: (params) => (
+      <Button
+        variant="text"
+        color={
+          (params.value === 'contested' && 'error') ||
+          (params.value === 'rejected' && 'error') ||
+          (params.value === 'awaiting_approval' && 'warning') ||
+          'success'
+        }
+        style={{ padding: '0 1rem' }}
+      >
+        {params.value}
+      </Button>
+    ),
+  },
+  {
+    field: 'message',
+    headerName: 'Message',
+    width: 190,
+  },
   // {
   //   field: 'action',
   //   headerName: 'Action',
@@ -42,8 +64,8 @@ const rows1 = [
 export default function LoanBreakDownTable() {
   const loanState = useSelector((state) => state.loan);
 
-  const loanObj = loanState?.loan?.installment || [];
-
+  const loanObj = loanState?.loan?.payment || [];
+  console.log(loanObj);
   function convertKoboToNaira(koboAmount) {
     const nairaAmount = koboAmount / 100; // 100 kobo equals 1 naira
     return nairaAmount;
@@ -57,9 +79,9 @@ export default function LoanBreakDownTable() {
       amount: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
-      }).format(convertKoboToNaira(loan?.amount_paid)),
-      date: moment(loan?.installment_date).format('L'),
-      status: loan?.status ? 'paid' : 'active',
+      }).format(convertKoboToNaira(loan?.amount)),
+      date: moment(loan?.createdAt).format('L'),
+      status: loan?.status,
       message: loan?.message ? loan?.message : '',
     };
 

@@ -17,7 +17,12 @@ import Scrollbar from 'src/components/scrollbar';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getUsers, getUserMetrics, searchUserByName } from 'src/features/Users/usersSlice';
+import {
+  getUsers,
+  getUserMetrics,
+  searchUserByName,
+  getUserStatus,
+} from 'src/features/Users/usersSlice';
 
 import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
 
@@ -35,10 +40,13 @@ export default function UserPage() {
   const userState = useSelector((state) => state.users);
   const authState = useSelector((state) => state);
   const userMetrics = userState?.userMetrics;
-  // console.log(userMetrics);
+
   const token = authState?.auth.user?.data?.token;
+  // console.log(userState?.users1);
+  // users1
+  const users22 = userState?.users?.data;
   // Table Users
-  const users = userState?.users?.data?.map((user, index) => {
+  const users = users22?.map((user, index) => {
     // Create loan data for each item
     const userData = {
       id: user.id,
@@ -70,23 +78,6 @@ export default function UserPage() {
 
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const handleSort = (event, id) => {
-    const isAsc = orderBy === id && order === 'asc';
-    if (id !== '') {
-      setOrder(isAsc ? 'desc' : 'asc');
-      setOrderBy(id);
-    }
-  };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = users.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected = [];
@@ -112,11 +103,6 @@ export default function UserPage() {
   const handleChangeRowsPerPage = (event) => {
     setPage(0);
     setRowsPerPage(parseInt(event.target.value, 10));
-  };
-
-  const handleFilterByName = (event) => {
-    setPage(0);
-    setFilterName(event.target.value);
   };
 
   const dataFiltered = applyFilter({
@@ -172,6 +158,26 @@ export default function UserPage() {
     setName(e.target.value); // Update the username state with the input value
     console.log(e.target.value);
   };
+  //
+  const [userStatus, setUserStatus] = useState(null);
+  const setPostStatus = (e) => {
+    // console.log(e);
+    setUserStatus(e);
+  };
+
+  useEffect(() => {
+    if (userStatus !== null && typeof userStatus === 'boolean') {
+      const items = { item: userStatus, token };
+      dispatch(getUserStatus(items));
+    }
+  }, [userStatus, dispatch, token]);
+
+  // console.log(userStatus);
+  useEffect(() => {
+    dispatch(getUsers(token));
+    dispatch(getUserMetrics(token));
+  }, [dispatch, token]);
+  //
 
   return (
     <Container>
@@ -215,6 +221,7 @@ export default function UserPage() {
       <Card>
         <UserTableToolbar
           numSelected={selected.length}
+          setPostStatus={setPostStatus}
           filterName={name}
           onFilterName={handleUsernameChange}
         />

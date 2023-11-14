@@ -68,6 +68,15 @@ export const UnsuspendAUser = createAsyncThunk('user/Unsuspend-a-user', async (i
     return thunkAPI.rejectWithValue(error);
   }
 });
+// Get Users Status
+export const getUserStatus = createAsyncThunk('user/get-user-status', async (items, thunkAPI) => {
+  try {
+    return await usersService.getUserStatus(items);
+  } catch (error) {
+    toast.error('Failed, try again');
+    return thunkAPI.rejectWithValue(error);
+  }
+});
 
 export const resetState = createAction('Reset_all');
 
@@ -92,6 +101,23 @@ export const usersSlice = createSlice({
         state.message = 'success';
       })
       .addCase(getUsers.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        state.isLoading = false;
+      })
+      // Users Status
+      .addCase(getUserStatus.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getUserStatus.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.users1 = action.payload;
+        state.message = 'success';
+      })
+      .addCase(getUserStatus.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;

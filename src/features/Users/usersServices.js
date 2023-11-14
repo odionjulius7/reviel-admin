@@ -56,7 +56,15 @@ const getUserMetrics = async (token) => {
   return response.data?.data;
 };
 
+const getUserStatus = async (items) => {
+  const config = generateAxiosConfig(items.token);
+  const response = await axios.get(`${base_url}user/all?verification_status=${items.item}`, config);
+  // console.log(response);
+  return response.data?.data;
+};
+
 const usersService = {
+  getUserStatus,
   getUsers,
   getAUser,
   getUserMetrics,

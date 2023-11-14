@@ -5,6 +5,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import { allLoanRecords, loanTransaction } from 'src/features/Loan/loanSlice';
 import moment from 'moment';
+import { Button } from '@mui/material';
 
 const columns = [
   {
@@ -30,8 +31,21 @@ const columns = [
   {
     field: 'status',
     headerName: 'Status',
-    // type: 'number',
     width: 140,
+    renderCell: (params) => (
+      <Button
+        variant="text"
+        color={
+          (params.value === 'contested' && 'error') ||
+          (params.value === 'rejected' && 'error') ||
+          (params.value === 'awaiting_approval' && 'warning') ||
+          'success'
+        }
+        style={{ padding: '0 1rem' }}
+      >
+        {params.value}
+      </Button>
+    ),
   },
   {
     field: 'message',

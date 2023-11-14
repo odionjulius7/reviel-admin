@@ -121,6 +121,18 @@ export const loanTransaction = createAsyncThunk(
   }
 );
 //
+// Get Loans By Status,
+export const getLoanStatus = createAsyncThunk(
+  'users/get-loans-by-status',
+  async (items, thunkAPI) => {
+    try {
+      return await loanService.getLoanStatus(items);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+//
 
 export const resetState = createAction('Reset_all');
 //
@@ -158,6 +170,23 @@ export const loanSlice = createSlice({
         state.message = 'success';
       })
       .addCase(searchLoansByName.rejected, (state, action) => {
+        state.isError = true;
+        state.isSuccess = false;
+        state.message = action.error;
+        state.isLoading = false;
+      })
+      // Get loans Status
+      .addCase(getLoanStatus.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getLoanStatus.fulfilled, (state, action) => {
+        state.isError = false;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.loans = action.payload;
+        state.message = 'success';
+      })
+      .addCase(getLoanStatus.rejected, (state, action) => {
         state.isError = true;
         state.isSuccess = false;
         state.message = action.error;

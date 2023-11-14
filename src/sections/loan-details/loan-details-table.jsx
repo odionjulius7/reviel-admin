@@ -5,6 +5,7 @@ import moment from 'moment';
 
 import { DataGrid } from '@mui/x-data-grid';
 import { useSelector } from 'react-redux';
+import { Button } from '@mui/material';
 
 const columns = [
   {
@@ -20,7 +21,20 @@ const columns = [
   { field: 'balance', headerName: 'Balance', width: 130 },
   { field: 'initiationDate', headerName: 'Initiation Date', width: 120 },
   { field: 'dueDate', headerName: 'Due Date', width: 120 },
-  { field: 'status', headerName: 'Status', width: 90 },
+  {
+    field: 'status',
+    headerName: 'Status',
+    width: 90,
+    renderCell: (params) => (
+      <Button
+        variant="contained"
+        color={(params.value === 'active' && 'error') || 'success'}
+        style={{ padding: '0 0.6rem' }}
+      >
+        {params.value}
+      </Button>
+    ),
+  },
   // {
   //   field: 'action',
   //   headerName: 'Action',
@@ -79,7 +93,7 @@ export default function LoanDetailsTable() {
       ),
       initiationDate: moment(loan?.createdAt).format('L'),
       dueDate: moment(loan?.due_date).format('L'),
-      status: loan?.status ? 'paid' : 'active',
+      status: loan?.status ? 'completed' : 'active',
     };
 
     // You can also add the index if needed

@@ -17,7 +17,12 @@ import Scrollbar from 'src/components/scrollbar';
 
 import AppWidgetSummary from 'src/sections/overview/app-widget-summary';
 
-import { getloanMetric, allLoanRecords, searchLoansByName } from 'src/features/Loan/loanSlice';
+import {
+  getloanMetric,
+  allLoanRecords,
+  searchLoansByName,
+  getLoanStatus,
+} from 'src/features/Loan/loanSlice';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -71,8 +76,9 @@ export default function LoanListPage() {
   });
 
   //
-  const [page, setPage] = useState(0);
 
+  const [loanStatus, setLoanStatus] = useState('');
+  const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
 
   // const [selected, setSelected] = useState([]);
@@ -101,11 +107,6 @@ export default function LoanListPage() {
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
-  const handleFilterByName = (event) => {
-    setPage(0);
-    setFilterName(event.target.value);
-  };
-
   const dataFiltered = applyFilter({
     inputData: loans,
     comparator: getComparator(order, orderBy),
@@ -113,12 +114,7 @@ export default function LoanListPage() {
   });
 
   const notFound = !dataFiltered.length && !!filterName;
-  //
 
-  useEffect(() => {
-    dispatch(getloanMetric(token));
-    dispatch(allLoanRecords(token));
-  }, [dispatch, token]);
   //
 
   const [creditid, setCreditid] = useState('');
@@ -147,8 +143,29 @@ export default function LoanListPage() {
 
   const handleUsernameChange = (e) => {
     setCreditid(e.target.value); // Update the username state with the input value
-    console.log(e.target.value);
+    // console.log(e.target.value);
   };
+
+  const setPostStatus = (e) => {
+    // console.log(e);
+    setLoanStatus(e);
+  };
+
+  useEffect(() => {
+    if (loanStatus !== 'completed' || 'active') {
+      const items = { item: loanStatus, token };
+      dispatch(getLoanStatus(items));
+    }
+  }, [loanStatus, dispatch, token]);
+
+  // console.log(loanStatus);
+  //
+
+  useEffect(() => {
+    dispatch(getloanMetric(token));
+    dispatch(allLoanRecords(token));
+  }, [dispatch, token]);
+
   return (
     <Container>
       <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
@@ -249,6 +266,7 @@ export default function LoanListPage() {
       <Card>
         <UserTableToolbar
           // numSelected={selected.length}
+          setPostStatus={setPostStatus}
           filterName={creditid}
           onFilterName={handleUsernameChange}
         />

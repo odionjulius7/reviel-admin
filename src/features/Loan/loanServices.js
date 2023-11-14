@@ -86,7 +86,32 @@ const searchLoansByName = async (nums) => {
   return response.data?.data;
 };
 
+// const getLoanStatus = async (items) => {
+//   const config = generateAxiosConfig(items.token);
+//   let status = items.item;
+
+//   // Add logic to adjust the status based on certain conditions
+//   if (status === 'active') {
+//     status = false;
+//   } else if (status === 'completed') {
+//     status = true;
+//   }
+
+//   const response = await axios.get(`${base_url}loan/all?status=${status}`, config);
+//   const loanData = response.data?.data;
+
+//   return loanData;
+// };
+
+const getLoanStatus = async (items) => {
+  const config = generateAxiosConfig(items.token);
+  const response = await axios.get(`${base_url}loan/all?status=${items.item}`, config);
+  // console.log(response);
+  return response.data?.data;
+};
+
 const loanService = {
+  getLoanStatus,
   loanTransaction,
   getAloan,
   allLoanRecords,
