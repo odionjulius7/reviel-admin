@@ -107,13 +107,13 @@ export const authSlice = createSlice({
       .addCase(changePassword.fulfilled, (state, action) => {
         state.isError = false;
         state.isLoading = false;
-        state.isSuccess2 = true;
+        state.isSuccess4 = true;
         state.newCredentials = action.payload;
         state.message = 'success';
       })
       .addCase(changePassword.rejected, (state, action) => {
         state.isError = true;
-        state.isSuccess2 = false;
+        state.isSuccess4 = false;
         state.message = action.error;
         state.isLoading = false;
       })

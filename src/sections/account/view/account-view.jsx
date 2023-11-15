@@ -33,7 +33,7 @@ export default function AccountPage() {
   const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
 
-  const { isSuccess2, isError } = authState.auth;
+  const { isSuccess4, isError, message } = authState.auth;
 
   const formik = useFormik({
     // initial form state
@@ -54,17 +54,19 @@ export default function AccountPage() {
     },
   });
 
-  useEffect(() => {
-    if (isSuccess2) {
-      toast.success('successfully changed password!');
-      formik.setFieldValue('old_password', '');
-      formik.setFieldValue('new_password', '');
-    }
+  // useEffect(() => {
+  //   if (isSuccess4) {
+  //     toast.success('successfully changed password!');
+  //     formik.setFieldValue('old_password', '');
+  //     formik.setFieldValue('new_password', '');
+  //   }
 
-    if (isError) {
-      toast.error('Something Went Wrong!');
-    }
-  }, [isSuccess2, isError, formik]);
+  //   // if (isError) {
+  //   //   toast.error('Something Went Wrong!');
+  //   // }
+  // }, [isSuccess4, formik]);
+
+  // console.log(isSuccess4);
 
   const renderForm = (
     <>
@@ -132,6 +134,17 @@ export default function AccountPage() {
           {formik.touched.new_password && formik.errors.new_password}
         </div>
       </Stack>
+
+      <div
+        className="error mt-2"
+        style={{
+          color: 'green',
+          fontSize: '14px',
+          margin: '0.5rem 0',
+        }}
+      >
+        {message === 'success' ? `password change ${message}` : ''}
+      </div>
 
       <LoadingButton
         fullWidth
