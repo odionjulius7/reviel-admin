@@ -13,7 +13,7 @@ const columns = [
     width: 70,
     // renderCell: (params) => <a href={`/loan/${params.row.id}`}>{params.value}</a>,
   },
-  { field: 'amount', headerName: 'Amount', width: 130 },
+  { field: 'amount', headerName: 'Value', width: 130 },
   { field: 'date', headerName: 'Date', width: 130 },
   {
     field: 'status',

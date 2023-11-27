@@ -154,10 +154,10 @@ export default function LoanRepaymentPage() {
                 onRequestSort={handleSort}
                 // onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'creditId', label: 'Credit ID', align: 'center' },
+                  { id: 'creditId', label: 'Loan ID', align: 'center' },
                   { id: 'lender', label: 'Lender' },
                   { id: 'borrower', label: 'Borrower' },
-                  { id: 'amount', label: 'Amount' },
+                  { id: 'amount', label: 'Value' },
                   { id: 'repaymentDate', label: 'Repayment Date' },
                   { id: 'status', label: 'Status' },
                   { id: 'message', label: 'Message' },

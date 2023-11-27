@@ -10,7 +10,7 @@ import { Button } from '@mui/material';
 const columns = [
   {
     field: 'id',
-    headerName: 'Credit ID',
+    headerName: 'Loan ID',
     width: 100,
     renderCell: (params) => <a href={`/loan/${params.row.id}`}>{params.value}</a>,
   },
@@ -18,7 +18,7 @@ const columns = [
   { field: 'borrower', headerName: 'Borrower', width: 160 },
   {
     field: 'amount',
-    headerName: 'Amount',
+    headerName: 'Value',
     // type: 'number',
     width: 130,
   },

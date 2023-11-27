@@ -181,7 +181,7 @@ export default function LoanListPage() {
       >
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
-            title="Total no. of loans"
+            title="Total Vol. of loans"
             total={
               (loan_metrics?.loans_active || 0) +
               (loan_metrics?.loans_due || 0) +
@@ -196,7 +196,7 @@ export default function LoanListPage() {
 
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
-            title="No. Of Over Due Loans"
+            title="Vol. Of Over Due Loans"
             total={loan_metrics?.loans_due || 0.001}
             color="error"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
@@ -206,7 +206,7 @@ export default function LoanListPage() {
         {/* small */}
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
-            title="Amount Of Loans Initiated By Lender"
+            title="Value Of Loans Initiated By Lender"
             total={convertKoboToNaira(loan_metrics?.total_amount_initiated_lender) || 0.001}
             color="warning"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
@@ -214,7 +214,7 @@ export default function LoanListPage() {
         </Grid>
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
-            title="No. Of Pending Loans"
+            title="Vol. Of Pending Loans"
             total={loan_metrics?.loans_pending || 0.001}
             color="success"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
@@ -222,7 +222,7 @@ export default function LoanListPage() {
         </Grid>
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
-            title="No. Completed Loans"
+            title="Vol. Completed Loans"
             total={loan_metrics?.loans_completed || 0.001}
             color="success"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
@@ -230,7 +230,7 @@ export default function LoanListPage() {
         </Grid>
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
-            title="Amount Of Loans Initiated By Borrower"
+            title="Value Of Loans Initiated By Borrower"
             total={convertKoboToNaira(loan_metrics?.total_amount_initiated_borrower) || 0.001}
             color="success"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
@@ -239,7 +239,7 @@ export default function LoanListPage() {
 
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
-            title="No. Of Active Loans"
+            title="Vol. Of Active Loans"
             total={loan_metrics?.loans_active || 0.001}
             color="info"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
@@ -247,7 +247,7 @@ export default function LoanListPage() {
         </Grid>
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
-            title="No. Of Loans Initiated By Lender"
+            title="Vol. Of Loans Initiated By Lender"
             total={loan_metrics?.lender_initiated || 0.001}
             color="info"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
@@ -255,7 +255,7 @@ export default function LoanListPage() {
         </Grid>
         <Grid xs={12} sm={6} md={4}>
           <AppWidgetSummary
-            title="No. Of Loans Initiated By Borrower"
+            title="Vol. Of Loans Initiated By Borrower"
             total={loan_metrics?.borrower_initiated || 0.001}
             color="info"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_bag.png" />}
@@ -282,10 +282,10 @@ export default function LoanListPage() {
                 onRequestSort={handleSort}
                 // onSelectAllClick={handleSelectAllClick}
                 headLabel={[
-                  { id: 'creditId', label: 'Credit ID', align: 'center' },
+                  { id: 'creditId', label: 'Loan ID', align: 'center' },
                   { id: 'lender', label: 'Lender' },
                   { id: 'borrower', label: 'Borrower' },
-                  { id: 'loanAmount', label: 'Loan Amount' },
+                  { id: 'loanAmount', label: 'Loan Value' },
                   { id: 'expectedReturn', label: 'Expected Return' },
                   { id: 'balance', label: 'Balance', align: 'center' },
                   { id: 'initiationDate', label: 'Initiation Date', align: 'center' },

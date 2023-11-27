@@ -125,21 +125,21 @@ export default function UserDetailPage() {
                 <Grid>
                   <Grid sx={{ marginBottom: '1.2rem' }} xs={12} sm={6} md={4}>
                     <AppWidgetSummary
-                      title="Number Of Loans"
+                      title="Volume Of Loans"
                       total={loanState?.userloansMetricsData?.loans || 0.001}
                       color="success"
                     />
                   </Grid>
                   <Grid sx={{ marginBottom: '1.2rem' }} xs={12} sm={6} md={3}>
                     <AppWidgetSummary
-                      title="Number Of Loans Borrowed"
+                      title="Volume Of Loans Borrowed"
                       total={loanState?.userloansMetricsData?.borrower || 0.001}
                       color="success"
                     />
                   </Grid>
                   <Grid xs={12} sm={6} md={3}>
                     <AppWidgetSummary
-                      title="Number Of Loans Lent"
+                      title="Volume Of Loans Lent"
                       total={loanState?.userloansMetricsData?.lender || 0.001}
                       color="success"
                     />

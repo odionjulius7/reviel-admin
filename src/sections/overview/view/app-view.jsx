@@ -75,7 +75,7 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="No. Of Loans Initiated"
+            title="Vol. Of Loans Initiated"
             total={loan_metrics?.loans_initiated || 0.001}
             color="warning"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_buy.png" />}
@@ -85,7 +85,7 @@ export default function AppView() {
         {/* small */}
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="Total amount of loans initated"
+            title="Total value of loans initated"
             total={convertKoboToNaira(loan_metrics?.total_amount) || 0.001}
             color="info"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_users.png" />}
@@ -95,7 +95,7 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="No. Of Pending KYC Requests"
+            title="Vol. Of Pending KYC Requests"
             total={loan_metrics?.kyc_pending || 0.001}
             color="error"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
@@ -104,7 +104,7 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="No. Of Approved KYC Requests"
+            title="Vol. Of Approved KYC Requests"
             total={loan_metrics?.kyc_approved || 0.001}
             color="error"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
@@ -113,7 +113,7 @@ export default function AppView() {
 
         <Grid xs={12} sm={6} md={3}>
           <AppWidgetSummary
-            title="No. Of Declined KYC Requests"
+            title="Vol. Of Declined KYC Requests"
             total={loan_metrics?.kyc_notapproved || 0.001}
             color="error"
             // icon={<img alt="icon" src="/assets/icons/glass/ic_glass_message.png" />}
@@ -150,7 +150,7 @@ export default function AppView() {
               ],
               series: [
                 {
-                  name: 'no. of loans',
+                  name: 'Vol. of loans',
                   type: 'line',
                   // type: 'column',
                   fill: 'solid',
@@ -158,21 +158,21 @@ export default function AppView() {
                   // data: [23, 11, 0, 0, 20, 20, 0, 60, 0, 0],
                 },
                 {
-                  name: 'no. of overdue loans',
+                  name: 'Vol. of overdue loans',
                   type: 'line',
                   fill: 'solid',
                   data: [],
                   // data: [44, 55, 41, 67, 22, 43, 21, 0, 0, 70, 20],
                 },
                 {
-                  name: 'no. of completed loans',
+                  name: 'Vol. of completed loans',
                   type: 'line',
                   fill: 'solid',
                   data: [0],
                   // data: [11, 25, 36, 0, 0, 0, 0, 52, 59, 0, 39],
                 },
                 {
-                  name: 'no. of active loans',
+                  name: 'Vol. of active loans',
                   type: 'line',
                   fill: 'solid',
                   data: [0, 0, 0],
