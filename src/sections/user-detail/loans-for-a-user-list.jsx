@@ -24,7 +24,6 @@ const columns = [
   {
     field: 'expectedReturn',
     headerName: 'Expected Return',
-    // type: 'number',
     width: 120,
   },
   {
