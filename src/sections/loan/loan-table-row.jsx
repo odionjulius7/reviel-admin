@@ -47,7 +47,7 @@ export default function LoansTableRow({
     <>
       <TableRow key={key} hover tabIndex={-1} role="checkbox" selected={selected}>
         <TableCell align="center">
-          <Link to={`/loan/${creditId}`}>{creditId}</Link>
+          <Link to={`/loan/${creditId}`}>{creditId.slice(0, 8)}</Link>
         </TableCell>
         <TableCell align="center">{lender}</TableCell>
 
@@ -79,7 +79,7 @@ export default function LoansTableRow({
           <Label
             color={
               (status === 'bad' && 'error') ||
-              (status === 'active' && 'warning') ||
+              (status === 'active' && 'success') ||
               (status === 'inactive' && 'warning') ||
               'success'
             }

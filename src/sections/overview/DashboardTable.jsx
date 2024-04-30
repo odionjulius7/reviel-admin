@@ -12,7 +12,13 @@ const columns = [
     field: 'id',
     headerName: 'Loan ID',
     width: 100,
-    renderCell: (params) => <a href={`/loan/${params.row.id}`}>{params.value}</a>,
+    renderCell: (params) => {
+      if (typeof params.value === 'string') {
+        return <a href={`/loan/${params.row.id}`}>{params.value.slice(0, 8)}</a>;
+      }
+      return <a href={`/loan/${params.row.id}`}>{params.value}</a>;
+    },
+    // renderCell: (params) => <a href={`/loan/${params.row.id.slice(0, 8)}`}>{params.value}</a>,
   },
   { field: 'lender', headerName: 'Lender', width: 120 },
   { field: 'borrower', headerName: 'Borrower', width: 160 },

@@ -42,7 +42,7 @@ export default function UserTableRow({
         */}
 
       <TableCell>
-        <Link to={`/user/${id}`}>{id}</Link>
+        <Link to={`/user/${id}`}>{id.slice(0, 8)}</Link>
       </TableCell>
       <TableCell>{firstName}</TableCell>
 

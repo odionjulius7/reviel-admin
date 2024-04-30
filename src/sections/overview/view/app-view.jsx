@@ -32,7 +32,7 @@ export default function AppView() {
   // console.log(loanState?.loanLineChartData);
   const loan_metrics = loanState?.loanMetrics;
   const userMetrics = userState?.userMetrics;
-
+  console.log(loanState?.userMetrics);
   useEffect(() => {
     // dispatch(resetState()); // at first render alway clear the state(like loading, success etc)
     dispatch(getloanMetric(token));

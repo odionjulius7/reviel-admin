@@ -40,7 +40,7 @@ export default function LoansTableRow({
     <>
       <TableRow hover tabIndex={-1} role="checkbox" selected={selected}>
         <TableCell align="center">
-          <Link to={`/loan/${creditId}`}>{creditId}</Link>
+          <Link to={`/loan/${creditId}`}>{creditId?.slice(0, 8)}</Link>
         </TableCell>
         <TableCell>{lender}</TableCell>
 

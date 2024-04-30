@@ -12,15 +12,20 @@ const columns = [
     field: 'id',
     headerName: 'Loan ID',
     width: 90,
-    renderCell: (params) => <a href={`/loan/${params.row.id}`}>{params.value}</a>,
+    renderCell: (params) => {
+      if (typeof params.value === 'string') {
+        return <a href={`/loan/${params.row.id}`}>{params.value.slice(0, 8)}</a>;
+      }
+      return <a href={`/loan/${params.row.id}`}>{params.value}</a>;
+    },
   },
-  { field: 'lender', headerName: 'Lender', width: 130 },
-  { field: 'borrower', headerName: 'Borrower', width: 130 },
-  { field: 'loanAmount', headerName: 'Loan Value', width: 130 },
+  { field: 'lender', headerName: 'Lender', width: 120 },
+  { field: 'borrower', headerName: 'Borrower', width: 120 },
+  { field: 'loanAmount', headerName: 'Loan Value', width: 120 },
   { field: 'expectedReturn', headerName: 'Expected Return', width: 130 },
-  { field: 'balance', headerName: 'Balance', width: 130 },
-  { field: 'initiationDate', headerName: 'Initiation Date', width: 120 },
-  { field: 'dueDate', headerName: 'Due Date', width: 120 },
+  { field: 'balance', headerName: 'Balance', width: 120 },
+  { field: 'initiationDate', headerName: 'Initiation Date', width: 110 },
+  { field: 'dueDate', headerName: 'Due Date', width: 110 },
   {
     field: 'status',
     headerName: 'Status',
@@ -79,14 +84,17 @@ export default function LoanDetailsTable() {
       loanAmount: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
+        minimumFractionDigits: 0,
       }).format(convertKoboToNaira(loan?.amount)),
       expectedReturn: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
+        minimumFractionDigits: 0,
       }).format(convertKoboToNaira(loan?.expected_return)),
       balance: new Intl.NumberFormat('en-NG', {
         style: 'currency',
         currency: 'NGN',
+        minimumFractionDigits: 0,
       }).format(
         (convertKoboToNaira(loan?.expected_return) ?? 0) -
           (convertKoboToNaira(loan?.amount_paid) ?? 0)
